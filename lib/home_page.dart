@@ -102,10 +102,8 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             SizedBox(height: 200),
-            Image.network('https://sdmntprwestus2.oaiusercontent.com/files/00000000-a4e8-61f8-8c66-f118ccf99a48/raw?se=2025-05-07T03%3A05%3A14Z&sp=r&sv=2024-08-04&sr=b&scid=e55fd925-0ae8-55fe-a910-40066c9f2243&skoid=e4438ed3-2a6f-4fd3-bf63-222012dc627c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-06T03%3A17%3A47Z&ske=2025-05-07T03%3A17%3A47Z&sks=b&skv=2024-08-04&sig=gvLvuJ4YHtW39iAjjGFvYMh0BDGLmr%2BJEyOnE3d85k8%3D',
-                height: 200,
-                width: 200,
-              ),
+            Image.network('https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
+                height: 100, width: 100),
             SizedBox(height: 20),
             Padding(
               padding: EdgeInsets.all(10.0),
