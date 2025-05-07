@@ -60,30 +60,30 @@ class _HomePageState extends State<HomePage> {
               child: Icon(Icons.person, size: 100, color: Colors.white),
             ),
             ListTile(
-              leading: const Icon(Icons.info),
-              title: const Text('Sobre'),
+              leading:  Icon(Icons.info),
+              title:  Text('Sobre'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: const Icon(Icons.contact_page),
-              title: const Text('Contatos'),
+              leading:  Icon(Icons.contact_page),
+              title:  Text('Contatos'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
 
             ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Configurações'),
+              leading:  Icon(Icons.settings),
+              title:  Text('Configurações'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Sair'),
+              leading:  Icon(Icons.logout),
+              title:  Text('Sair'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -92,9 +92,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme:  IconThemeData(color: Colors.white),
         backgroundColor: Colors.black,
-        title: const Text('FitXpert', style: TextStyle(color: Colors.white)),
+        title:  Text('FitXpert', style: TextStyle(color: Colors.white)),
         actions: [],
       ),
 
