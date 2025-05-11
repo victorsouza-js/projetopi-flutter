@@ -10,7 +10,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _lottieController;
 
   final _formKey = GlobalKey<FormState>();
@@ -21,7 +22,23 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
 
-  bool _isPasswordVisible = false; 
+  bool _isPasswordVisible = false;
+
+  Future<void> salvarDados() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', _usernameController.text);
+    await prefs.setString('email', _emailController.text);
+    await prefs.setString('password', _passwordController.text);
+  }
+
+  Future<void> carregarDados() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _usernameController.text = prefs.getString('username') ?? '';
+      _emailController.text = prefs.getString('email') ?? '';
+      _passwordController.text = prefs.getString('password') ?? '';
+    });
+  }
 
   Future<void> salvarValor(String chave, String valor) async {
     final prefs = await SharedPreferences.getInstance();
@@ -32,9 +49,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     _lottieController = AnimationController(
-      duration: const Duration(seconds: 20),
+      duration: const Duration(seconds: 10),
       vsync: this,
     )..forward();
+    carregarDados();
   }
 
   @override
@@ -79,9 +97,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 },
               ),
               SizedBox(height: 30),
-              Text('Bem-vindo ao FitXpert', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(
+                'Bem-vindo ao FitXpert',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 10),
-              Text('Insira seus dados para continuar', style: TextStyle(fontSize: 15)),
+              Text(
+                'Insira seus dados para continuar',
+                style: TextStyle(fontSize: 15),
+              ),
               SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -99,7 +123,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                       borderSide: const BorderSide(color: Colors.orange),
                     ),
                   ),
-                  
+
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'O campo de usuário não pode estar vazio.';
@@ -139,7 +163,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   controller: _passwordController,
-                  obscureText: !_isPasswordVisible, 
+                  obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     labelStyle: TextStyle(color: Colors.black),
@@ -184,7 +208,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     onPressed: () {
                       Navigator.pushNamed(context, '/cadastro');
                     },
-                    child: Text('Cadastre-se'),
+                    child: Text('Cadastre-se',style: TextStyle(color: Colors.orange.shade700),),
                   ),
                 ],
               ),
@@ -203,6 +227,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
                     Navigator.pushNamed(context, '/home2');
                   }
+
+                  if (_formKey.currentState!.validate()) {
+                      await salvarDados(); // Salva os dados no SharedPreferences
+                      Navigator.pushNamed(context, '/home2');
+                    }
+
                 },
                 child: Text('Entrar', style: TextStyle(fontSize: 15)),
               ),
