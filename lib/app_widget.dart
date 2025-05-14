@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_pi_flutter/cadastro.dart';
 import 'package:projeto_pi_flutter/home_page.dart';
 import 'package:projeto_pi_flutter/home_page_2.dart';
+import 'package:projeto_pi_flutter/profile_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -15,6 +16,7 @@ class AppWidget extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/home2': (context) => HomePage2(),
         '/cadastro': (context) => Cadastro(),
+        '/profile': (context) => ProfilePage(),
 
       },
       );
