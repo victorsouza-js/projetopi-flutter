@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage>
           key: _formKey,
           child: Column(
             children: [
-              const SizedBox(height: 200),
+              SizedBox(height: 200),
               Lottie.network(
                 'https://lottie.host/d24168f4-e0c0-458c-8a7b-50c524716de0/uRiXGAp7La.json',
                 width: 150,
@@ -154,19 +154,19 @@ class _HomePageState extends State<HomePage>
               ),
               SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   controller: _usernameController,
                   decoration: InputDecoration(
                     labelText: 'Username',
-                    labelStyle: const TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.orange),
                     ),
                   ),
 
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.orange),
                     ),
                   ),
                   validator: (value) {
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.orange),
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(

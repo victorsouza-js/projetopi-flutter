@@ -154,12 +154,11 @@ class _CadastroState extends State<Cadastro> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        side: BorderSide(
-                          color: Colors.orange.shade700,
-                          width: 2.0,
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.orange.shade700,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
-                        foregroundColor: Colors.black,
-                        backgroundColor: Colors.white,
                         padding: EdgeInsets.all(18.0),
                       ),
                       onPressed: _finalizarCadastro,
