@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:projeto_pi_flutter/profile_page.dart';
+import 'package:projeto_pi_flutter/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
