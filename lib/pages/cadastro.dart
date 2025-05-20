@@ -64,117 +64,166 @@ class _CadastroState extends State<Cadastro> {
     return Scaffold(
       body: Stack(
         children: [
+          // Imagem de fundo
           Image.network(
             'https://wallpapers.com/images/hd/bodybuilder-doing-monkey-bar-hd-quhhvbjveujf57gf.jpg',
             fit: BoxFit.cover,
             height: double.infinity,
             width: double.infinity,
           ),
-          // Conteúdo sobreposto
+          // Gradiente escuro para melhorar contraste
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.black.withOpacity(0.7),
+                  Colors.black.withOpacity(0.3),
+                  Colors.black.withOpacity(0.7),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
           Center(
-            child: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 50),
-                    Lottie.network(
-                      'https://lottie.host/d24168f4-e0c0-458c-8a7b-50c524716de0/uRiXGAp7La.json',
-                      width: 200,
-                      height: 200,
-                    ),
-                    SizedBox(height: 30),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: _usernameController,
-                        decoration: InputDecoration(
-                          hintText: 'Usuário',
-                          hintStyle: TextStyle(fontWeight: FontWeight.w700,color: Colors.black),
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange.shade700,
-                              width: 2.0,
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  margin:  EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.92),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 16,
+                        offset: Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.network(
+                        'https://lottie.host/d24168f4-e0c0-458c-8a7b-50c524716de0/uRiXGAp7La.json',
+                        width: 120,
+                        height: 120,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Crie sua conta',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange.shade700,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person, color: Colors.orange),
+                            hintText: 'Usuário',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                color: Colors.orange.shade700,
+                                width: 2.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Senha',
-                          hintStyle: TextStyle(fontWeight: FontWeight.w700,color: Colors.black),
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange.shade700,
-                              width: 2.0,
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            prefixIcon:  Icon(Icons.lock, color: Colors.orange),
+                            hintText: 'Senha',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                color: Colors.orange.shade700,
+                                width: 2.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: 'E-mail',
-                          hintStyle: TextStyle(fontWeight: FontWeight.w700,color: Colors.black),
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.orange.shade700,
-                              width: 2.0,
+                      Padding(
+                        padding:  EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            prefixIcon:  Icon(Icons.email, color: Colors.orange),
+                            hintText: 'E-mail',
+                            hintStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                color: Colors.orange.shade700,
+                                width: 2.0,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.orange.shade700,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                      SizedBox(height: 24),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.orange.shade700,
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
                         ),
-                        padding: EdgeInsets.all(18.0),
+                        onPressed: _finalizarCadastro,
+                        child: Text(
+                          'Finalizar Cadastro',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
-                      onPressed: _finalizarCadastro,
-                      child: Text('Finalizar Cadastro'),
-                    ),
-                    SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/home');
-                      },
-                      child: Text(
-                        'Voltar',
-                        style: TextStyle(color: Colors.orange.shade700),
+                      SizedBox(height: 16),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/home');
+                        },
+                        child: Text(
+                          'Voltar',
+                          style: TextStyle(
+                            color: Colors.orange.shade700,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

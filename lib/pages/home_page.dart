@@ -261,6 +261,17 @@ class _HomePageState extends State<HomePage>
                   ),
                 ],
               ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(FontAwesomeIcons.facebook, color: Colors.blue),
+                  SizedBox(width: 10),
+                  Icon(FontAwesomeIcons.instagram, color: Colors.pink),
+                  SizedBox(width: 10),
+                  Icon(FontAwesomeIcons.twitter, color: Colors.lightBlue),
+                ],
+              ),
               SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
