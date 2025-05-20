@@ -157,9 +157,11 @@ class _HomePageState extends State<HomePage>
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   controller: _usernameController,
+                  
                   decoration: InputDecoration(
-                    labelText: 'Username',
-                    labelStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(FontAwesomeIcons.user, color: Colors.black),
+                    hintText: 'Username',
+                    hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.black),
@@ -183,8 +185,9 @@ class _HomePageState extends State<HomePage>
                 child: TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(FontAwesomeIcons.envelope, color: Colors.black),
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.black),
@@ -211,8 +214,9 @@ class _HomePageState extends State<HomePage>
                   controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.black),
+                    prefixIcon: Icon(FontAwesomeIcons.lock, color: Colors.black),
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.black),
