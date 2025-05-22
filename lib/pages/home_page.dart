@@ -290,7 +290,7 @@ class _HomePageState extends State<HomePage>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 17),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {

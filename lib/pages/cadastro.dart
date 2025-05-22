@@ -90,7 +90,7 @@ class _CadastroState extends State<Cadastro> {
               child: Form(
                 key: _formKey,
                 child: Container(
-                  margin:  EdgeInsets.symmetric(horizontal: 24),
+                  margin: EdgeInsets.symmetric(horizontal: 24),
                   padding: EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.92),
@@ -115,7 +115,7 @@ class _CadastroState extends State<Cadastro> {
                       Text(
                         'Crie sua conta',
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: Colors.orange.shade700,
                           letterSpacing: 1.2,
@@ -127,9 +127,15 @@ class _CadastroState extends State<Cadastro> {
                         child: TextFormField(
                           controller: _usernameController,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person, color: Colors.orange),
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: Colors.orange,
+                            ),
                             hintText: 'Usuário',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54),
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                            ),
                             filled: true,
                             fillColor: Colors.grey[100],
                             border: OutlineInputBorder(
@@ -151,9 +157,12 @@ class _CadastroState extends State<Cadastro> {
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
-                            prefixIcon:  Icon(Icons.lock, color: Colors.orange),
+                            prefixIcon: Icon(Icons.lock, color: Colors.orange),
                             hintText: 'Senha',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54),
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                            ),
                             filled: true,
                             fillColor: Colors.grey[100],
                             border: OutlineInputBorder(
@@ -170,13 +179,43 @@ class _CadastroState extends State<Cadastro> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.symmetric(vertical: 8.0),
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock, color: Colors.orange),
+                            hintText: 'Confirmar Senha',
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[100],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              borderSide: BorderSide(
+                                color: Colors.orange.shade700,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
                         child: TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
-                            prefixIcon:  Icon(Icons.email, color: Colors.orange),
+                            prefixIcon: Icon(Icons.email, color: Colors.orange),
                             hintText: 'E-mail',
-                            hintStyle: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54),
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                            ),
                             filled: true,
                             fillColor: Colors.grey[100],
                             border: OutlineInputBorder(
@@ -200,12 +239,18 @@ class _CadastroState extends State<Cadastro> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 13,
+                          ),
                         ),
                         onPressed: _finalizarCadastro,
                         child: Text(
                           'Finalizar Cadastro',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       SizedBox(height: 16),
