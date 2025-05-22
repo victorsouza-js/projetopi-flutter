@@ -157,9 +157,12 @@ class _HomePageState extends State<HomePage>
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   controller: _usernameController,
-                  
+
                   decoration: InputDecoration(
-                    prefixIcon: Icon(FontAwesomeIcons.user, color: Colors.black),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.user,
+                      color: Colors.black,
+                    ),
                     hintText: 'Username',
                     hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
@@ -185,7 +188,10 @@ class _HomePageState extends State<HomePage>
                 child: TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(FontAwesomeIcons.envelope, color: Colors.black),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.envelope,
+                      color: Colors.black,
+                    ),
                     hintText: 'Email',
                     hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
@@ -214,7 +220,10 @@ class _HomePageState extends State<HomePage>
                   controller: _passwordController,
                   obscureText: !_isPasswordVisible,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(FontAwesomeIcons.lock, color: Colors.black),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.lock,
+                      color: Colors.black,
+                    ),
                     hintText: 'Password',
                     hintStyle: TextStyle(color: Colors.black),
                     border: OutlineInputBorder(
