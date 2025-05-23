@@ -65,66 +65,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        backgroundColor: Colors.black,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            SizedBox(height: 20),
-            Icon(Icons.account_circle, color: Colors.white, size: 100),
-            SizedBox(height: 20),
-            ListTile(
-              leading: Icon(Icons.home, color: Colors.white),
-              title: Text('Home', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings, color: Colors.white),
-              title: Text(
-                'Configurações',
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info, color: Colors.white),
-              title: Text('Sobre', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pushNamed(context, '/about');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.white),
-              title: Text('Sair', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pop(context); // Fecha o Drawer
-              },
-            ),
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Colors.black,
-        title: Text('FitXpert', style: TextStyle(color: Colors.white)),
-        actions: [
-          Icon(FontAwesomeIcons.wifi, color: Colors.white),
-          SizedBox(width: 15),
-          IconButton(
-            icon: Icon(FontAwesomeIcons.bell, color: Colors.white),
-            onPressed: () {
-              // Ação do botão de notificações
-            },
-          ),
-        ],
-      ),
+     
       body: Center(
         child: Form(
           key: _formKey,
@@ -290,7 +231,7 @@ class _HomePageState extends State<HomePage>
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
