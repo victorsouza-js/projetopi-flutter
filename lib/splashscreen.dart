@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       duration: const Duration(seconds: 10),
       vsync: this,
     )..forward();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacementNamed(context, '/home');
     });
   }
