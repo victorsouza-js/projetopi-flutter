@@ -3,6 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projeto_pi_flutter/pages/profile_page.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,6 +47,30 @@ class _HomePageState extends State<HomePage>
   Future<void> salvarValor(String chave, String valor) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(chave, valor);
+  }
+
+  Future<void> loginWithGitHub() async {
+    final clientId = 'Ov23liJkBo01kQNQR0Bq';
+    final redirectUri = 'com.meuapp://callback';
+
+    // Endpoint do seu Laravel
+    final authUrl = 'http://localhost:8000/auth/github/redirect';
+
+    try {
+      final result = await FlutterWebAuth2.authenticate(
+        url: authUrl,
+        callbackUrlScheme: 'com.meuapp',
+      );
+
+      final uri = Uri.parse(result);
+      final token = uri.queryParameters['token'];
+
+      print('Token JWT recebido: $token');
+
+      // Salve o token e navegue para a próxima tela
+    } catch (e) {
+      print('Erro ao autenticar: $e');
+    }
   }
 
   @override
@@ -225,7 +252,12 @@ class _HomePageState extends State<HomePage>
                 children: [
                   Icon(FontAwesomeIcons.facebook, color: Colors.blue),
                   SizedBox(width: 10),
-                  Icon(FontAwesomeIcons.github, color: Colors.black),
+                  IconButton(
+                    onPressed: () async {
+                      await loginWithGitHub();
+                    },
+                    icon: Icon(FontAwesomeIcons.github, color: Colors.black),
+                  ),
                   SizedBox(width: 10),
                   Icon(FontAwesomeIcons.google, color: Colors.red),
                 ],
@@ -248,7 +280,6 @@ class _HomePageState extends State<HomePage>
 
                   if (_formKey.currentState!.validate()) {
                     await salvarDados(); // Salva os dados no SharedPreferences
-                    Navigator.pushNamed(context, '/home2');
                   }
                 },
                 child: Text('Entrar', style: TextStyle(fontSize: 15)),
