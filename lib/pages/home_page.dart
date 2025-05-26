@@ -214,15 +214,20 @@ class _HomePageState extends State<HomePage>
                   ),
                 ],
               ),
+              SizedBox(height: 20),
+              Text(
+                'Ou entre com',
+                style: TextStyle(fontSize: 13, color: Colors.black),
+              ),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(FontAwesomeIcons.facebook, color: Colors.blue),
                   SizedBox(width: 10),
-                  Icon(FontAwesomeIcons.instagram, color: Colors.pink),
+                  Icon(FontAwesomeIcons.github, color: Colors.black),
                   SizedBox(width: 10),
-                  Icon(FontAwesomeIcons.twitter, color: Colors.lightBlue),
+                  Icon(FontAwesomeIcons.google, color: Colors.red),
                 ],
               ),
               SizedBox(height: 20),

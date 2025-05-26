@@ -61,36 +61,41 @@ class _HomePage2State extends State<HomePage2> {
       ),
       appBar: AppBar(
         title: Container(
-    height: 40,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: TextField(
-      controller: _searchController,
-      style: TextStyle(color: Colors.black),
-      decoration: InputDecoration(
-        hintText: 'Pesquisar...',
-        hintStyle: TextStyle(color: Colors.grey),
-        prefixIcon: Icon(Icons.search, color: Colors.orange),
-        border: InputBorder.none,
-        contentPadding: EdgeInsets.symmetric(vertical: 6),
-      ),
-    ),
-  ),
-        
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: TextField(
+            controller: _searchController,
+            style: TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+              hintText: 'Pesquisar...',
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixIcon: Icon(Icons.search, color: Colors.orange),
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(vertical: 6),
+            ),
+          ),
+        ),
+
         actions: [
           Row(
             children: [
-              IconButton(onPressed: (){}, icon: Icon(FontAwesomeIcons.cartShopping)),
-              SizedBox(width: 10,),
-              IconButton(onPressed: (){}, icon: Icon(FontAwesomeIcons.bell)),
-              SizedBox(width: 10,),
-              IconButton(onPressed: 
-              (){}, icon: Icon(FontAwesomeIcons.truckFast)),
-            
+              IconButton(
+                onPressed: () {},
+                icon: Icon(FontAwesomeIcons.cartShopping),
+              ),
+              SizedBox(width: 10),
+              IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.bell)),
+              SizedBox(width: 10),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(FontAwesomeIcons.truckFast),
+              ),
             ],
-          )],
+          ),
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.orange,
       ),
