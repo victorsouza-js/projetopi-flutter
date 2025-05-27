@@ -43,6 +43,28 @@ class _HomePage2State extends State<HomePage2> {
   }
 
   final TextEditingController _searchController = TextEditingController();
+
+  final List<Map<String, dynamic>> produtos = [
+    {
+      'nome': 'Camiseta',
+      'preco': 79.90,
+      'imagem':
+          'https://acdn-us.mitiendanube.com/stores/001/986/628/products/images-81-dcc46ec8560929129e16456425387492-640-0-depositphotos-bgremover1-8acef3ad9bd2a81f7616534318469047-640-0.png',
+    },
+    {
+      'nome': 'Tênis',
+      'preco': 199.90,
+      'imagem':
+          'https://acdn-us.mitiendanube.com/stores/001/865/527/products/photo_2023-03-27_15-46-57-removebg-preview1-006839263212a4cc5716799429557901-640-0.png',
+    },
+    {
+      'nome': 'Boné',
+      'preco': 29.90,
+      'imagem':
+          'https://acdn-us.mitiendanube.com/stores/001/986/628/products/images-81-dcc46ec8560929129e16456425387492-640-0-depositphotos-bgremover1-8acef3ad9bd2a81f7616534318469047-640-0.png',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,8 +151,79 @@ class _HomePage2State extends State<HomePage2> {
             ],
           ),
         ],
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.orange,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: GridView.builder(
+          itemCount: produtos.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 0.75,
+          ),
+          itemBuilder: (context, index) {
+            final produto = produtos[index];
+            return Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.orange[100],
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(12),
+                        ),
+                      ),
+                      child: Image.network(
+                        produto['imagem'],
+                        fit: BoxFit.contain,
+                        height: 100,
+                        width: 100,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      produto['nome'],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      'R\$ ${produto['preco'].toStringAsFixed(2)}',
+                      style: TextStyle(color: Colors.grey[700]),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          bottom: Radius.circular(12),
+                        ),
+                      ),
+                    ),
+                    child: Text('Comprar'),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

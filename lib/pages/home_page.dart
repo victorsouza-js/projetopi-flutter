@@ -100,7 +100,6 @@ class _HomePageState extends State<HomePage>
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
                   controller: _usernameController,
-
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       FontAwesomeIcons.user,
