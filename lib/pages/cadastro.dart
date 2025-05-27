@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projeto_pi_flutter/pages/home_page_2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -10,45 +11,20 @@ class Cadastro extends StatefulWidget {
 }
 
 class _CadastroState extends State<Cadastro> {
+  final RegExp emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  void _finalizarCadastro() {
-    if (_usernameController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('O campo de usuário não pode estar vazio.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    if (_passwordController.text.isEmpty ||
-        _passwordController.text.length < 8) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('A senha deve ter pelo menos 8 caracteres.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    if (_emailController.text.isEmpty ||
-        !RegExp(
-          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-        ).hasMatch(_emailController.text)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, insira um e-mail válido.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
+  void _finalizarCadastro() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', _usernameController.text);
+    await prefs.setString('password', _passwordController.text);
+    await prefs.setString('email', _emailController.text);
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -58,7 +34,6 @@ class _CadastroState extends State<Cadastro> {
     );
 
     Navigator.pushNamed(context, '/home2');
-
   }
 
   @override
@@ -151,6 +126,12 @@ class _CadastroState extends State<Cadastro> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, insira um nome de usuário';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -178,6 +159,15 @@ class _CadastroState extends State<Cadastro> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, insira uma senha';
+                            }
+                            if (value.length < 6) {
+                              return 'A senha deve ter pelo menos 6 caracteres';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -205,6 +195,12 @@ class _CadastroState extends State<Cadastro> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, insira uma senha';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       Padding(
@@ -231,6 +227,14 @@ class _CadastroState extends State<Cadastro> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, insira um e-mail';
+                            } else if (!emailRegex.hasMatch(value)) {
+                              return 'Por favor, insira um e-mail válido';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                       SizedBox(height: 24),

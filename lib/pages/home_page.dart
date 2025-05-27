@@ -28,13 +28,6 @@ class _HomePageState extends State<HomePage>
 
   bool _isPasswordVisible = false;
 
-  Future<void> salvarDados() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', _usernameController.text);
-    await prefs.setString('email', _emailController.text);
-    await prefs.setString('password', _passwordController.text);
-  }
-
   Future<void> carregarDados() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -44,33 +37,16 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  Future<void> salvarValor(String chave, String valor) async {
+
+  Future<bool> validarLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(chave, valor);
-  }
+    final username = prefs.getString('username');
+    final password = prefs.getString('password');
+    final email = prefs.getString('email');
 
-  Future<void> loginWithGitHub() async {
-    final clientId = 'Ov23liJkBo01kQNQR0Bq';
-    final redirectUri = 'com.meuapp://callback';
-
-    // Endpoint do seu Laravel
-    final authUrl = 'http://localhost:8000/auth/github/redirect';
-
-    try {
-      final result = await FlutterWebAuth2.authenticate(
-        url: authUrl,
-        callbackUrlScheme: 'com.meuapp',
-      );
-
-      final uri = Uri.parse(result);
-      final token = uri.queryParameters['token'];
-
-      print('Token JWT recebido: $token');
-
-      // Salve o token e navegue para a próxima tela
-    } catch (e) {
-      print('Erro ao autenticar: $e');
-    }
+    return _usernameController.text == username &&
+        _passwordController.text == password &&
+        _emailController.text == email;
   }
 
   @override
@@ -219,8 +195,8 @@ class _HomePageState extends State<HomePage>
                     if (value == null || value.isEmpty) {
                       return 'O campo de senha não pode estar vazio.';
                     }
-                    if (value.length < 8) {
-                      return 'A senha deve ter pelo menos 8 caracteres.';
+                    if (value.length < 6) {
+                      return 'A senha deve ter pelo menos 6 caracteres.';
                     }
                     return null;
                   },
@@ -250,16 +226,20 @@ class _HomePageState extends State<HomePage>
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(FontAwesomeIcons.facebook, color: Colors.blue),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(FontAwesomeIcons.twitter, color: Colors.blue),
+                  ),
                   SizedBox(width: 10),
                   IconButton(
-                    onPressed: () async {
-                      await loginWithGitHub();
-                    },
+                    onPressed: () {},
                     icon: Icon(FontAwesomeIcons.github, color: Colors.black),
                   ),
                   SizedBox(width: 10),
-                  Icon(FontAwesomeIcons.google, color: Colors.red),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(FontAwesomeIcons.google, color: Colors.red),
+                  ),
                 ],
               ),
               SizedBox(height: 20),
@@ -271,15 +251,15 @@ class _HomePageState extends State<HomePage>
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await salvarValor('email', _emailController.text);
-                    await salvarValor('username', _usernameController.text);
-                    await salvarValor('password', _passwordController.text);
-
-                    Navigator.pushNamed(context, '/home2');
-                  }
-
-                  if (_formKey.currentState!.validate()) {
-                    await salvarDados(); // Salva os dados no SharedPreferences
+                    if (await validarLogin()) {
+                      Navigator.pushNamed(context, '/home2');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Usuário, e-mail ou senha incorretos!'),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: Text('Entrar', style: TextStyle(fontSize: 15)),

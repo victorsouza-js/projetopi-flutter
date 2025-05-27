@@ -21,9 +21,7 @@ class AppWidget extends StatelessWidget {
         '/cadastro': (context) => Cadastro(),
         '/profile': (context) => ProfilePage(),
         '/splash': (context) => SplashScreen(),
-
       },
       );
-  
   }
 }
