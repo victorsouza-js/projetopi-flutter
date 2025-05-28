@@ -60,10 +60,9 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-/*************  ✨ Windsurf Command ⭐  *************/
+
   /// Clean up animation controller resources used by the page.
 
-/*******  3d99e73b-ed86-4713-ae3f-6fbb7256d0e1  *******/
   void dispose() {
     _lottieController.dispose();
     super.dispose();
