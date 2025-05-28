@@ -46,22 +46,22 @@ class _HomePage2State extends State<HomePage2> {
 
   final List<Map<String, dynamic>> produtos = [
     {
-      'nome': 'Camiseta',
+      'nome': 'Creatina Max 300g',
       'preco': 79.90,
       'imagem':
-          'https://acdn-us.mitiendanube.com/stores/001/986/628/products/images-81-dcc46ec8560929129e16456425387492-640-0-depositphotos-bgremover1-8acef3ad9bd2a81f7616534318469047-640-0.png',
+          'https://images.tcdn.com.br/img/img_prod/996597/creatina_300g_pote_max_titanium_6940_1_27fd86d998d9077967d06165be82a759.png',
     },
     {
-      'nome': 'Tênis',
-      'preco': 199.90,
+      'nome': 'Creatina Monohidratada Dark Lab 300g',
+      'preco': 54.90,
       'imagem':
-          'https://acdn-us.mitiendanube.com/stores/001/865/527/products/photo_2023-03-27_15-46-57-removebg-preview1-006839263212a4cc5716799429557901-640-0.png',
+          'https://acdn-us.mitiendanube.com/stores/002/218/616/products/crea1-abd8ff086c388782e017183634041853-1024-1024.png',
     },
     {
-      'nome': 'Boné',
-      'preco': 29.90,
+      'nome': 'Straps de Pulso',
+      'preco': 12.00,
       'imagem':
-          'https://acdn-us.mitiendanube.com/stores/001/986/628/products/images-81-dcc46ec8560929129e16456425387492-640-0-depositphotos-bgremover1-8acef3ad9bd2a81f7616534318469047-640-0.png',
+          'https://m.media-amazon.com/images/S/aplus-media-library-service-media/009a7384-7174-42ad-8018-538a9f1ee631.__CR0,0,300,300_PT0_SX300_V1___.png',
     },
   ];
 
