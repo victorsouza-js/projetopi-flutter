@@ -238,89 +238,29 @@ class _HomePage2State extends State<HomePage2> {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.orange,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: GridView.builder(
-          itemCount: produtos.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 0.75,
-          ),
-          itemBuilder: (context, index) {
-            final produto = produtos[index];
-            return Card(
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.orange[100],
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(12),
-                        ),
-                      ),
-                      child: Image.network(
-                        produto['imagem'],
-                        fit: BoxFit.contain,
-                        height: 100,
-                        width: 100,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      produto['nome'],
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      'R\$ ${produto['preco'].toStringAsFixed(2)}',
-                      style: TextStyle(color: Colors.grey[700]),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        carrinho.add(produto);
-                      });
-                      await _salvarCarrinho();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${produto['nome']} adicionado ao carrinho!',
-                          ),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          bottom: Radius.circular(12),
-                        ),
-                      ),
-                    ),
-
-                    child: Text('Comprar'),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+      body: ListView.builder(
+        itemCount: produtos.length,
+        itemBuilder: (context, index) {
+          final produto = produtos[index];
+          return ListTile(
+            leading: Image.network(
+              produto['imagem'],
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
+            title: Text(produto['nome']),
+            subtitle: Text('R\$ ${produto['preco'].toStringAsFixed(2)}'),
+            trailing: IconButton(
+              icon: Icon(FontAwesomeIcons.cartPlus),
+              onPressed: () {
+                setState(() {
+                  carrinho.add(produto);
+                });
+              },
+            ),
+          );
+        },
       ),
     );
   }
