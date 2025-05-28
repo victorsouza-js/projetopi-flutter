@@ -257,6 +257,11 @@ class _HomePage2State extends State<HomePage2> {
                 setState(() {
                   carrinho.add(produto);
                 });
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${produto['nome']} adicionado ao carrinho!'),
+                  ),
+                );
               },
             ),
           );
