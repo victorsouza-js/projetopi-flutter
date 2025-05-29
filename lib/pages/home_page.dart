@@ -16,6 +16,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+  Future<void> fetchProducts() async {
+    final response = await http.get(
+      Uri.parse('http://localhost:8000/api/produto'),
+    );
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print(data);
+    } else {
+      throw Exception('Erro ao carregar produtos');
+    }
+  }
+
+
+
   late AnimationController _lottieController;
 
   final _formKey = GlobalKey<FormState>();
@@ -36,7 +51,6 @@ class _HomePageState extends State<HomePage>
       _passwordController.text = prefs.getString('password') ?? '';
     });
   }
-
 
   Future<bool> validarLogin() async {
     final prefs = await SharedPreferences.getInstance();
@@ -60,9 +74,7 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-
   /// Clean up animation controller resources used by the page.
-
   void dispose() {
     _lottieController.dispose();
     super.dispose();

@@ -12,6 +12,15 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
+  
+  bool isDarkMode = false;
+
+  void _toggleTheme() {
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
+  }
+
   Future<void> _salvarCarrinho() async {
     final prefs = await SharedPreferences.getInstance();
     final carrinhoJson = jsonEncode(carrinho);
@@ -52,12 +61,23 @@ class _HomePage2State extends State<HomePage2> {
                           return ListTile(
                             leading: Image.network(
                               item['imagem'],
-                              width: 40,
-                              height: 40,
+                              width: 70,
+                              height: 70,
                             ),
                             title: Text(item['nome']),
                             subtitle: Text(
                               'R\$ ${item['preco'].toStringAsFixed(2)}',
+                            ),
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () async {
+                                setState(() {
+                                  carrinho.removeAt(index);
+                                });
+                                await _salvarCarrinho();
+                                Navigator.pop(context);
+                                _mostrarCarrinho(); // Atualiza o dialog
+                              },
                             ),
                           );
                         },
@@ -170,10 +190,81 @@ class _HomePage2State extends State<HomePage2> {
             ListTile(
               leading: Icon(Icons.logout, color: Colors.white),
               title: Text('Sair', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pushNamed(context, '/home'); // Fecha o Drawer
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.clear(); // Limpa todos os dados salvos (logout)
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/home',
+                  (route) => false,
+                );
               },
             ),
+            SizedBox(height: 20),
+            Divider(color: Colors.white),
+            SizedBox(height: 10),
+            ListTile(
+              leading: Icon(Icons.contact_support, color: Colors.white),
+              title: Text('Suporte', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/support');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.feedback, color: Colors.white),
+              title: Text('Feedback', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/feedback');
+              },
+            ),
+            SizedBox(height: 20),
+            Divider(color: Colors.white),
+            SizedBox(height: 10),
+            ListTile(
+              leading: Icon(Icons.help, color: Colors.white),
+              title: Text('Ajuda', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/help');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.privacy_tip, color: Colors.white),
+              title: Text('Privacidade', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/privacy');
+              },
+            ),
+            SizedBox(height: 20),
+            Divider(color: Colors.white),
+            SizedBox(height: 10),
+            ListTile(
+              leading: Icon(Icons.language, color: Colors.white),
+              title: Text('Idioma', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/language');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.notifications, color: Colors.white),
+              title: Text(
+                'Notificações',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/notifications');
+              },
+            ),
+            SizedBox(height: 20),
+            Divider(color: Colors.white),
+            SizedBox(height: 10),
+            ListTile(
+              leading: Icon(Icons.star, color: Colors.white),
+              title: Text('Avaliar App', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/rate');
+              },
+            ),
+          
           ],
         ),
       ),

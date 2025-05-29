@@ -7,6 +7,7 @@ import 'package:projeto_pi_flutter/splashscreen.dart';
 
 
 class AppWidget extends StatelessWidget {
+  
   const AppWidget({super.key});
 
   @override
