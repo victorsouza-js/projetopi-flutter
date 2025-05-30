@@ -12,7 +12,6 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
-  
   bool isDarkMode = false;
 
   void _toggleTheme() {
@@ -165,8 +164,6 @@ class _HomePage2State extends State<HomePage2> {
       'imagem':
           'https://m.media-amazon.com/images/I/61fB7PV3A7L._AC_UL320_.jpg',
     },
-
-
   ];
 
   @override
@@ -283,7 +280,6 @@ class _HomePage2State extends State<HomePage2> {
                 Navigator.pushNamed(context, '/rate');
               },
             ),
-          
           ],
         ),
       ),
@@ -348,26 +344,93 @@ class _HomePage2State extends State<HomePage2> {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.orange,
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(10),
+      body: GridView.builder(
+        padding: EdgeInsets.all(16),
         itemCount: produtos.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio: 0.72,
+        ),
         itemBuilder: (context, index) {
           final produto = produtos[index];
           return Card(
-            margin: EdgeInsets.all(10),
-            child: ListTile(
-              leading: Image.network(produto['imagem'], width: 70, height: 70),
-              title: Text(produto['nome']),
-              subtitle: Text('R\$ ${produto['preco'].toStringAsFixed(2)}'),
-              trailing: IconButton(
-                icon: Icon(Icons.add_shopping_cart),
-                onPressed: () {
-                  setState(() {
-                    carrinho.add(produto);
-                  });
-                  _salvarCarrinho();
-                },
-              ),
+            elevation: 6,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(18),
+                    ),
+                    child: Image.network(
+                      produto['imagem'],
+                      fit: BoxFit.contain,
+                      height: 120,
+                      errorBuilder:
+                          (context, error, stackTrace) =>
+                              Icon(Icons.image, size: 80, color: Colors.grey),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Text(
+                    produto['nome'],
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    'R\$ ${produto['preco'].toStringAsFixed(2)}',
+                    style: TextStyle(
+                      color: Colors.orange[800],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    icon: Icon(Icons.add_shopping_cart),
+                    label: Text('Comprar'),
+                    onPressed: () {
+                      setState(() {
+                        carrinho.add(produto);
+                      });
+                      _salvarCarrinho();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${produto['nome']} adicionado ao carrinho!',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8),
+              ],
             ),
           );
         },
