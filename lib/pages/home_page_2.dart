@@ -65,7 +65,7 @@ class _HomePage2State extends State<HomePage2> {
                             ),
                             title: Text(item['nome']),
                             subtitle: Text(
-                              'R\$ ${item['preco'].toStringAsFixed(2)}',
+                              'R\$ ${item['preco'].toStringAsFixed(2)}\nQtd: ${item['quantidade'] ?? 1}',
                             ),
                             trailing: IconButton(
                               icon: Icon(Icons.delete, color: Colors.red),
@@ -165,6 +165,25 @@ class _HomePage2State extends State<HomePage2> {
       'preco': 67.99,
       'imagem':
           'https://m.media-amazon.com/images/I/61fB7PV3A7L._AC_UL320_.jpg',
+    },
+
+    {
+      'nome': 'Whey Max Titanium x Dr. Peanut 900g s:Doce de Leite',
+      'preco': 120.99,
+      'imagem':
+          'https://m.media-amazon.com/images/I/61IpPwe99OL._AC_UL320_.jpg',
+    },
+    {
+      'nome': 'Whey Max Titanium x Dr. Peanut 900g s:Bueníssimo',
+      'preco': 120.99,
+      'imagem':
+          'https://m.media-amazon.com/images/I/611DbOCRmFL._AC_UL320_.jpg',
+    },
+    {
+      'nome': 'Whey Max Titanium x Dr. Peanut 900g s:Avelã',
+      'preco': 120.99,
+      'imagem':
+          'https://m.media-amazon.com/images/I/61zXQDYWmcL._AC_UL320_.jpg',
     },
   ];
 
@@ -360,7 +379,7 @@ class _HomePage2State extends State<HomePage2> {
       body: GridView.builder(
         padding: EdgeInsets.all(16),
         itemCount: produtosFiltrados.length,
-        
+
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
@@ -431,7 +450,19 @@ class _HomePage2State extends State<HomePage2> {
                     label: Text('Comprar'),
                     onPressed: () {
                       setState(() {
-                        carrinho.add(produto);
+                        final index = carrinho.indexWhere(
+                          (item) => item['nome'] == produto['nome'],
+                        );
+                        if (index != -1) {
+                          carrinho[index]['quantidade'] =
+                              (carrinho[index]['quantidade'] ?? 1) + 1;
+                        } else {
+                          final novoProduto = Map<String, dynamic>.from(
+                            produto,
+                          );
+                          novoProduto['quantidade'] = 1;
+                          carrinho.add(novoProduto);
+                        }
                       });
                       _salvarCarrinho();
                       ScaffoldMessenger.of(context).showSnackBar(
