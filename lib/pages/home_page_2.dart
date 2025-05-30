@@ -133,20 +133,40 @@ class _HomePage2State extends State<HomePage2> {
       'nome': 'Creatina Max 300g',
       'preco': 79.90,
       'imagem':
-          'https://images.tcdn.com.br/img/img_prod/996597/creatina_300g_pote_max_titanium_6940_1_27fd86d998d9077967d06165be82a759.png',
+          'https://m.media-amazon.com/images/I/51gt4U5kD-L._AC_UL320_.jpg',
     },
     {
       'nome': 'Creatina Monohidratada Dark Lab 300g',
       'preco': 54.90,
       'imagem':
-          'https://acdn-us.mitiendanube.com/stores/002/218/616/products/crea1-abd8ff086c388782e017183634041853-1024-1024.png',
+          'https://m.media-amazon.com/images/I/81IObjtLiML._AC_UL320_.jpg',
     },
     {
-      'nome': 'Straps de Pulso',
-      'preco': 12.00,
+      'nome': 'Creatina Monohidratada Growth Supplements 300g',
+      'preco': 68.90,
       'imagem':
-          'https://m.media-amazon.com/images/S/aplus-media-library-service-media/009a7384-7174-42ad-8018-538a9f1ee631.__CR0,0,300,300_PT0_SX300_V1___.png',
+          'https://m.media-amazon.com/images/I/61hrHdSCq7L._AC_UL320_.jpg',
     },
+    {
+      'nome': 'Creatina Monohidratada Integralmedica 300g',
+      'preco': 70.00,
+      'imagem':
+          'https://m.media-amazon.com/images/I/81UashXoAxL._AC_UL320_.jpg',
+    },
+    {
+      'nome': 'Creatina Monohidratada Probiótica 300g',
+      'preco': 56.90,
+      'imagem':
+          'https://m.media-amazon.com/images/I/514imF5uGPL._AC_UL320_.jpg',
+    },
+    {
+      'nome': 'Creatina Monohudratada Dux 300g',
+      'preco': 67.99,
+      'imagem':
+          'https://m.media-amazon.com/images/I/61fB7PV3A7L._AC_UL320_.jpg',
+    },
+
+
   ];
 
   @override
@@ -329,6 +349,7 @@ class _HomePage2State extends State<HomePage2> {
         backgroundColor: Colors.orange,
       ),
       body: ListView.builder(
+        padding: EdgeInsets.all(10),
         itemCount: produtos.length,
         itemBuilder: (context, index) {
           final produto = produtos[index];
