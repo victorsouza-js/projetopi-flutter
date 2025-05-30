@@ -356,6 +356,7 @@ class _HomePage2State extends State<HomePage2> {
         itemBuilder: (context, index) {
           final produto = produtos[index];
           return Card(
+            margin: EdgeInsets.all(8),
             elevation: 6,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
