@@ -191,8 +191,7 @@ class _HomePage2State extends State<HomePage2> {
               leading: Icon(Icons.logout, color: Colors.white),
               title: Text('Sair', style: TextStyle(color: Colors.white)),
               onTap: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.clear(); // Limpa todos os dados salvos (logout)
+                await _salvarCarrinho();
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   '/home',
