@@ -127,6 +127,8 @@ class _HomePage2State extends State<HomePage2> {
 
   final TextEditingController _searchController = TextEditingController();
 
+  String searchText = '';
+
   final List<Map<String, dynamic>> produtos = [
     {
       'nome': 'Creatina Max 300g',
@@ -168,6 +170,12 @@ class _HomePage2State extends State<HomePage2> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> produtosFiltrados =
+        produtos.where((produto) {
+          final nome = produto['nome'].toString().toLowerCase();
+          return nome.contains(searchText.toLowerCase());
+        }).toList();
+
     return Scaffold(
       drawer: Drawer(
         backgroundColor: Colors.black,
@@ -300,6 +308,11 @@ class _HomePage2State extends State<HomePage2> {
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(vertical: 6),
             ),
+            onChanged: (value) {
+              setState(() {
+                searchText = value;
+              });
+            },
           ),
         ),
 
@@ -346,7 +359,8 @@ class _HomePage2State extends State<HomePage2> {
       ),
       body: GridView.builder(
         padding: EdgeInsets.all(16),
-        itemCount: produtos.length,
+        itemCount: produtosFiltrados.length,
+        
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
@@ -354,7 +368,7 @@ class _HomePage2State extends State<HomePage2> {
           childAspectRatio: 0.72,
         ),
         itemBuilder: (context, index) {
-          final produto = produtos[index];
+          final produto = produtosFiltrados[index];
           return Card(
             margin: EdgeInsets.all(8),
             elevation: 6,
