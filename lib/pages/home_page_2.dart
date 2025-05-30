@@ -332,27 +332,21 @@ class _HomePage2State extends State<HomePage2> {
         itemCount: produtos.length,
         itemBuilder: (context, index) {
           final produto = produtos[index];
-          return ListTile(
-            leading: Image.network(
-              produto['imagem'],
-              width: 50,
-              height: 50,
-              fit: BoxFit.cover,
-            ),
-            title: Text(produto['nome']),
-            subtitle: Text('R\$ ${produto['preco'].toStringAsFixed(2)}'),
-            trailing: IconButton(
-              icon: Icon(FontAwesomeIcons.cartPlus),
-              onPressed: () {
-                setState(() {
-                  carrinho.add(produto);
-                });
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('${produto['nome']} adicionado ao carrinho!'),
-                  ),
-                );
-              },
+          return Card(
+            margin: EdgeInsets.all(10),
+            child: ListTile(
+              leading: Image.network(produto['imagem'], width: 70, height: 70),
+              title: Text(produto['nome']),
+              subtitle: Text('R\$ ${produto['preco'].toStringAsFixed(2)}'),
+              trailing: IconButton(
+                icon: Icon(Icons.add_shopping_cart),
+                onPressed: () {
+                  setState(() {
+                    carrinho.add(produto);
+                  });
+                  _salvarCarrinho();
+                },
+              ),
             ),
           );
         },

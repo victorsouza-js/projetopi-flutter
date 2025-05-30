@@ -106,10 +106,7 @@ class _HomePageState extends State<HomePage>
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              Text(
-                'Insira seus dados para continuar',
-                style: TextStyle(fontSize: 15),
-              ),
+            
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.all(10.0),
