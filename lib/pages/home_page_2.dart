@@ -189,6 +189,13 @@ class _HomePage2State extends State<HomePage2> {
 
   @override
   Widget build(BuildContext context) {
+    final bool dark = isDarkMode;
+    final Color background = dark ? Colors.black : Colors.white;
+    final Color cardColor = dark ? Colors.grey[900]! : Colors.white;
+    final Color textColor = dark ? Colors.white : Colors.black;
+    final Color drawerColor = dark ? Colors.grey[900]! : Colors.black;
+    final Color appBarColor = dark ? Colors.grey[850]! : Colors.orange;
+
     final List<Map<String, dynamic>> produtosFiltrados =
         produtos.where((produto) {
           final nome = produto['nome'].toString().toLowerCase();
@@ -242,6 +249,18 @@ class _HomePage2State extends State<HomePage2> {
                   (route) => false,
                 );
               },
+            ),
+            SizedBox(height: 20),
+            ListTile(
+              leading: Icon(
+                dark ? Icons.light_mode : Icons.dark_mode,
+                color: Colors.white,
+              ),
+              title: Text(
+                dark ? 'Tema Claro' : 'Tema Escuro',
+                style: TextStyle(color: Colors.white),
+              ),
+              onTap: _toggleTheme,
             ),
             SizedBox(height: 20),
             Divider(color: Colors.white),

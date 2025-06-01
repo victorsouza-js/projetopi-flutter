@@ -33,7 +33,7 @@ class _CadastroState extends State<Cadastro> {
       ),
     );
 
-    Navigator.pushNamed(context, '/home2');
+    Navigator.pushNamed(context, '/home');
   }
 
   @override
