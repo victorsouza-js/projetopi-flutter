@@ -12,13 +12,7 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
-  bool isDarkMode = false;
-
-  void _toggleTheme() {
-    setState(() {
-      isDarkMode = !isDarkMode;
-    });
-  }
+  Map<String, String> enderecoEntrega = {};
 
   Future<void> _salvarCarrinho() async {
     final prefs = await SharedPreferences.getInstance();
@@ -36,9 +30,101 @@ class _HomePage2State extends State<HomePage2> {
     }
   }
 
+  Future<void> _carregarEndereco() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonStr = prefs.getString('endereco_entrega');
+    setState(() {
+      enderecoEntrega =
+          jsonStr != null ? Map<String, String>.from(jsonDecode(jsonStr)) : {};
+    });
+  }
+
+  Future<void> _salvarEndereco(Map<String, String> endereco) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('endereco_entrega', jsonEncode(endereco));
+    setState(() {
+      enderecoEntrega = endereco;
+    });
+  }
+
+  void _mostrarDialogEndereco() async {
+    final TextEditingController cpfController = TextEditingController(
+      text: enderecoEntrega['cpf'] ?? '',
+    );
+    final TextEditingController ruaController = TextEditingController(
+      text: enderecoEntrega['rua'] ?? '',
+    );
+    final TextEditingController numeroController = TextEditingController(
+      text: enderecoEntrega['numero'] ?? '',
+    );
+    final TextEditingController bairroController = TextEditingController(
+      text: enderecoEntrega['bairro'] ?? '',
+    );
+    final TextEditingController cidadeController = TextEditingController(
+      text: enderecoEntrega['cidade'] ?? '',
+    );
+
+    await showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text('Endereço de Entrega'),
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: cpfController,
+                    decoration: InputDecoration(hintText: 'CPF'),
+                    keyboardType: TextInputType.number,
+                  ),
+                  TextField(
+                    controller: ruaController,
+                    decoration: InputDecoration(hintText: 'Rua'),
+                  ),
+                  TextField(
+                    controller: numeroController,
+                    decoration: InputDecoration(hintText: 'Número'),
+                    keyboardType: TextInputType.number,
+                  ),
+                  TextField(
+                    controller: bairroController,
+                    decoration: InputDecoration(hintText: 'Bairro'),
+                  ),
+                  TextField(
+                    controller: cidadeController,
+                    decoration: InputDecoration(hintText: 'Cidade'),
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  await _salvarEndereco({
+                    'cpf': cpfController.text,
+                    'rua': ruaController.text,
+                    'numero': numeroController.text,
+                    'bairro': bairroController.text,
+                    'cidade': cidadeController.text,
+                  });
+                  Navigator.pop(context);
+                },
+                child: Text('Salvar'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  @override
   void initState() {
     super.initState();
     _carregarCarrinho();
+    _carregarEndereco();
   }
 
   void _mostrarCarrinho() {
@@ -189,13 +275,6 @@ class _HomePage2State extends State<HomePage2> {
 
   @override
   Widget build(BuildContext context) {
-    final bool dark = isDarkMode;
-    final Color background = dark ? Colors.black : Colors.white;
-    final Color cardColor = dark ? Colors.grey[900]! : Colors.white;
-    final Color textColor = dark ? Colors.white : Colors.black;
-    final Color drawerColor = dark ? Colors.grey[900]! : Colors.black;
-    final Color appBarColor = dark ? Colors.grey[850]! : Colors.orange;
-
     final List<Map<String, dynamic>> produtosFiltrados =
         produtos.where((produto) {
           final nome = produto['nome'].toString().toLowerCase();
@@ -250,19 +329,6 @@ class _HomePage2State extends State<HomePage2> {
                 );
               },
             ),
-            SizedBox(height: 20),
-            ListTile(
-              leading: Icon(
-                dark ? Icons.light_mode : Icons.dark_mode,
-                color: Colors.white,
-              ),
-              title: Text(
-                dark ? 'Tema Claro' : 'Tema Escuro',
-                style: TextStyle(color: Colors.white),
-              ),
-              onTap: _toggleTheme,
-            ),
-            SizedBox(height: 20),
             Divider(color: Colors.white),
             SizedBox(height: 10),
             ListTile(
@@ -326,6 +392,17 @@ class _HomePage2State extends State<HomePage2> {
                 Navigator.pushNamed(context, '/rate');
               },
             ),
+            SizedBox(height: 20),
+            ListTile(
+              leading: Icon(Icons.location_on, color: Colors.white),
+              title: Text(
+                enderecoEntrega.isEmpty
+                    ? 'Endereço não cadastrado'
+                    : '${enderecoEntrega['rua'] ?? ''}, Nº ${enderecoEntrega['numero'] ?? ''}\nBairro: ${enderecoEntrega['bairro'] ?? ''}\nCidade: ${enderecoEntrega['cidade'] ?? ''}\nCPF: ${enderecoEntrega['cpf'] ?? ''}',
+                style: TextStyle(color: Colors.white, fontSize: 13),
+              ),
+              onTap: _mostrarDialogEndereco,
+            ),
           ],
         ),
       ),
@@ -388,6 +465,11 @@ class _HomePage2State extends State<HomePage2> {
               ),
               SizedBox(width: 10),
               IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.bell)),
+              SizedBox(width: 10),
+              IconButton(
+                onPressed: _mostrarDialogEndereco,
+                icon: Icon(FontAwesomeIcons.locationDot),
+              ),
               SizedBox(width: 10),
             ],
           ),
