@@ -192,11 +192,10 @@ class _HomePage2State extends State<HomePage2> {
 
   Future<void> _carregarPedidos() async {
     final prefs = await SharedPreferences.getInstance();
-    final pedidosJson = prefs.getString('pedidos');
-    if (pedidosJson != null) {
+    final jsonStr = prefs.getString('pedidos');
+    if (jsonStr != null) {
       setState(() {
-        pedidos = List<Map<String, dynamic>>.from(jsonDecode(pedidosJson));
-        pedidos = pedidos.reversed.toList();    
+        pedidos = List<Map<String, dynamic>>.from(jsonDecode(jsonStr));
       });
     }
   }
@@ -223,13 +222,35 @@ class _HomePage2State extends State<HomePage2> {
       builder:
           (context) => AlertDialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(20),
             ),
-            title: Row(
+            elevation: 8,
+            titlePadding: EdgeInsets.only(
+              top: 24,
+              left: 24,
+              right: 24,
+              bottom: 0,
+            ),
+            title: Column(
               children: [
-                Icon(Icons.location_on, color: Colors.orange),
-                SizedBox(width: 8),
-                Text('Endereço de Entrega'),
+                CircleAvatar(
+                  radius: 32,
+                  backgroundColor: Colors.orange.shade100,
+                  child: Icon(
+                    Icons.location_on,
+                    color: Colors.orange,
+                    size: 36,
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  'Endereço de Entrega',
+                  style: TextStyle(
+                    color: Colors.orange[800],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
               ],
             ),
             content: SingleChildScrollView(
@@ -242,47 +263,53 @@ class _HomePage2State extends State<HomePage2> {
                       labelText: 'CPF',
                       prefixIcon: Icon(Icons.badge, color: Colors.orange),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.orange),
                       ),
+                      filled: true,
+                      fillColor: Colors.orange.withOpacity(0.04),
                     ),
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 14),
                   TextField(
                     controller: ruaController,
                     decoration: InputDecoration(
                       labelText: 'Rua',
                       prefixIcon: Icon(Icons.streetview, color: Colors.orange),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.orange),
                       ),
+                      filled: true,
+                      fillColor: Colors.orange.withOpacity(0.04),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 14),
                   TextField(
                     controller: numeroController,
                     decoration: InputDecoration(
                       labelText: 'Número',
                       prefixIcon: Icon(Icons.home, color: Colors.orange),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.orange),
                       ),
+                      filled: true,
+                      fillColor: Colors.orange.withOpacity(0.04),
                     ),
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 14),
                   TextField(
                     controller: bairroController,
                     decoration: InputDecoration(
@@ -292,44 +319,55 @@ class _HomePage2State extends State<HomePage2> {
                         color: Colors.orange,
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.orange),
                       ),
+                      filled: true,
+                      fillColor: Colors.orange.withOpacity(0.04),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 14),
                   TextField(
                     controller: cidadeController,
                     decoration: InputDecoration(
                       labelText: 'Cidade',
                       prefixIcon: Icon(Icons.map, color: Colors.orange),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide(color: Colors.orange),
                       ),
+                      filled: true,
+                      fillColor: Colors.orange.withOpacity(0.04),
                     ),
                   ),
                 ],
               ),
             ),
+            actionsPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text('Cancelar'),
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                ),
+                icon: Icon(Icons.save),
+                label: Text(
+                  'Salvar',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 onPressed: () async {
                   await _salvarEndereco({
@@ -341,7 +379,6 @@ class _HomePage2State extends State<HomePage2> {
                   });
                   Navigator.pop(context);
                 },
-                child: Text('Salvar'),
               ),
             ],
           ),
