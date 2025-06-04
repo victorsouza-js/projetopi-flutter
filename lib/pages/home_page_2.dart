@@ -12,7 +12,150 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
+  List<Map<String, dynamic>> pedidos = [];
   Map<String, String> enderecoEntrega = {};
+
+  void _mostrarPedidos() {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            title: Row(
+              children: [
+                Icon(Icons.receipt_long, color: Colors.orange, size: 28),
+                SizedBox(width: 10),
+                Text(
+                  'Meus Pedidos',
+                  style: TextStyle(
+                    color: Colors.orange[800],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+            content:
+                pedidos.isEmpty
+                    ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.inbox, size: 60, color: Colors.grey[400]),
+                        SizedBox(height: 16),
+                        Text(
+                          'Nenhum pedido realizado ainda.',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[600],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
+                    : SizedBox(
+                      width: 340,
+                      height: 350,
+                      child: ListView.builder(
+                        itemCount: pedidos.length,
+                        itemBuilder: (context, index) {
+                          final pedido = pedidos[index];
+                          final data = DateTime.parse(pedido['data']);
+                          return Card(
+                            color: Colors.orange.shade50,
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            margin: EdgeInsets.symmetric(vertical: 8),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.orange[200],
+                                        child: Icon(
+                                          Icons.shopping_bag,
+                                          color: Colors.orange[800],
+                                        ),
+                                        radius: 18,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          'Pedido #${index + 1}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Colors.orange[800],
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
+                                  Divider(),
+                                  ...List.generate(
+                                    pedido['produtos'].length,
+                                    (i) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 2.0,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.check_circle,
+                                            color: Colors.orange,
+                                            size: 18,
+                                          ),
+                                          SizedBox(width: 6),
+                                          Expanded(
+                                            child: Text(
+                                              '${pedido['produtos'][i]['nome']}',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'Qtd: ${pedido['produtos'][i]['quantidade'] ?? 1}',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.grey[700],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Fechar'),
+              ),
+            ],
+          ),
+    );
+  }
 
   Future<void> _salvarCarrinho() async {
     final prefs = await SharedPreferences.getInstance();
@@ -68,31 +211,98 @@ class _HomePage2State extends State<HomePage2> {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text('Endereço de Entrega'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            title: Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.orange),
+                SizedBox(width: 8),
+                Text('Endereço de Entrega'),
+              ],
+            ),
             content: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(height: 8),
                   TextField(
                     controller: cpfController,
-                    decoration: InputDecoration(hintText: 'CPF'),
+                    decoration: InputDecoration(
+                      labelText: 'CPF',
+                      prefixIcon: Icon(Icons.badge, color: Colors.orange),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
                     keyboardType: TextInputType.number,
                   ),
+                  SizedBox(height: 12),
                   TextField(
                     controller: ruaController,
-                    decoration: InputDecoration(hintText: 'Rua'),
+                    decoration: InputDecoration(
+                      labelText: 'Rua',
+                      prefixIcon: Icon(Icons.streetview, color: Colors.orange),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
                   ),
+                  SizedBox(height: 12),
                   TextField(
                     controller: numeroController,
-                    decoration: InputDecoration(hintText: 'Número'),
+                    decoration: InputDecoration(
+                      labelText: 'Número',
+                      prefixIcon: Icon(Icons.home, color: Colors.orange),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
                     keyboardType: TextInputType.number,
                   ),
+                  SizedBox(height: 12),
                   TextField(
                     controller: bairroController,
-                    decoration: InputDecoration(hintText: 'Bairro'),
+                    decoration: InputDecoration(
+                      labelText: 'Bairro',
+                      prefixIcon: Icon(
+                        Icons.location_city,
+                        color: Colors.orange,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
                   ),
+                  SizedBox(height: 12),
                   TextField(
                     controller: cidadeController,
-                    decoration: InputDecoration(hintText: 'Cidade'),
+                    decoration: InputDecoration(
+                      labelText: 'Cidade',
+                      prefixIcon: Icon(Icons.map, color: Colors.orange),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.orange),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -102,7 +312,14 @@ class _HomePage2State extends State<HomePage2> {
                 onPressed: () => Navigator.pop(context),
                 child: Text('Cancelar'),
               ),
-              TextButton(
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
                 onPressed: () async {
                   await _salvarEndereco({
                     'cpf': cpfController.text,
@@ -128,52 +345,192 @@ class _HomePage2State extends State<HomePage2> {
   }
 
   void _mostrarCarrinho() {
+    double total = carrinho.fold(
+      0.0,
+      (soma, item) => soma + (item['preco'] * (item['quantidade'] ?? 1)),
+    );
+
     showDialog(
       context: context,
       builder:
-          (context) => AlertDialog(
-            title: Text('Carrinho'),
-            content:
-                carrinho.isEmpty
-                    ? Text('Seu carrinho está vazio.')
-                    : SizedBox(
-                      width: double.maxFinite,
-                      child: ListView.builder(
+          (context) => Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.shopping_cart, color: Colors.orange, size: 28),
+                      SizedBox(width: 8),
+                      Text(
+                        'Meu Carrinho',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.orange[800],
+                        ),
+                      ),
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.close, color: Colors.grey[700]),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  if (carrinho.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32),
+                      child: Text(
+                        'Seu carrinho está vazio.',
+                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                      ),
+                    )
+                  else
+                    Flexible(
+                      child: ListView.separated(
                         shrinkWrap: true,
                         itemCount: carrinho.length,
+                        separatorBuilder: (_, __) => Divider(),
                         itemBuilder: (context, index) {
                           final item = carrinho[index];
-                          return ListTile(
-                            leading: Image.network(
-                              item['imagem'],
-                              width: 70,
-                              height: 70,
-                            ),
-                            title: Text(item['nome']),
-                            subtitle: Text(
-                              'R\$ ${item['preco'].toStringAsFixed(2)}\nQtd: ${item['quantidade'] ?? 1}',
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () async {
-                                setState(() {
-                                  carrinho.removeAt(index);
-                                });
-                                await _salvarCarrinho();
-                                Navigator.pop(context);
-                                _mostrarCarrinho(); // Atualiza o dialog
-                              },
-                            ),
+                          return Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.network(
+                                  item['imagem'],
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['nome'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      'R\$ ${item['preco'].toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Qtd: ${item['quantidade'] ?? 1}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () async {
+                                  setState(() {
+                                    carrinho.removeAt(index);
+                                  });
+                                  await _salvarCarrinho();
+                                  Navigator.pop(context);
+                                  _mostrarCarrinho();
+                                },
+                              ),
+                            ],
                           );
                         },
                       ),
                     ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Fechar'),
+                  if (carrinho.isNotEmpty) ...[
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'R\$ ${total.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange[800],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange[800],
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        icon: Icon(Icons.shopping_bag),
+                        label: Text(
+                          'Finalizar Compra',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          if (carrinho.isNotEmpty) {
+                            setState(() {
+                              pedidos.add({
+                                'produtos': List<Map<String, dynamic>>.from(
+                                  carrinho,
+                                ),
+                                'data': DateTime.now().toString(),
+                              });
+                              carrinho.clear();
+                            });
+                            _salvarCarrinho();
+                          }
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Compra finalizada!')),
+                          );
+                          setState(() {
+                            carrinho.clear();
+                          });
+                          _salvarCarrinho();
+                        },
+                      ),
+                    ),
+                  ],
+                ],
               ),
-            ],
+            ),
           ),
     );
   }
@@ -189,16 +546,47 @@ class _HomePage2State extends State<HomePage2> {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text('Minha Conta'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: 10),
+                Text(
+                  'Minha Conta',
+                  style: TextStyle(
+                    color: Colors.orange[800],
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(FontAwesomeIcons.userCircle, size: 40),
-                SizedBox(height: 16),
-                Text('Usuário: $username'),
+                CircleAvatar(
+                  radius: 45,
+                  backgroundColor: Colors.orange.shade100,
+                  child: Icon(
+                    FontAwesomeIcons.user,
+                    color: Colors.orange,
+                    size: 50,
+                  ),
+                ),
+                SizedBox(height: 18),
+                Text(
+                  username,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(height: 8),
-                Text('E-mail: $email'),
+                Text(
+                  email,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  textAlign: TextAlign.center,
+                ),
               ],
             ),
             actions: [
@@ -314,7 +702,102 @@ class _HomePage2State extends State<HomePage2> {
               leading: Icon(Icons.info, color: Colors.white),
               title: Text('Sobre', style: TextStyle(color: Colors.white)),
               onTap: () {
-                Navigator.pushNamed(context, '/about');
+                showDialog(
+                  context: context,
+                  builder:
+                      (context) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                        title: Row(
+                          children: [
+                            Icon(Icons.info, color: Colors.orange, size: 28),
+                            SizedBox(width: 8),
+                            Text(
+                              'Sobre o FitXpert',
+                              style: TextStyle(
+                                color: Colors.orange[800],
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Divider(),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.fitness_center,
+                                  color: Colors.orange,
+                                ),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'O FitXpert é um aplicativo criado para facilitar a compra de suplementos e produtos para quem busca saúde, bem-estar e performance.',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Icon(Icons.flag, color: Colors.orange),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Nosso objetivo é oferecer praticidade, segurança e variedade para você atingir seus objetivos de forma eficiente!',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Icon(Icons.verified, color: Colors.orange),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    '• Produtos de qualidade\n• Entrega rápida\n• Atendimento personalizado',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.developer_mode,
+                                  color: Colors.orange,
+                                ),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    'Desenvolvido por alunos de Análise e Desenvolvimento de Sistemas.',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey[700],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('Fechar'),
+                          ),
+                        ],
+                      ),
+                );
               },
             ),
             ListTile(
@@ -465,6 +948,11 @@ class _HomePage2State extends State<HomePage2> {
               ),
               SizedBox(width: 10),
               IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.bell)),
+              SizedBox(width: 10),
+              IconButton(
+                onPressed: _mostrarPedidos,
+                icon: Icon(Icons.receipt_long),
+              ),
               SizedBox(width: 10),
               IconButton(
                 onPressed: _mostrarDialogEndereco,
