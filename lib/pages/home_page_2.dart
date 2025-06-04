@@ -190,6 +190,17 @@ class _HomePage2State extends State<HomePage2> {
     });
   }
 
+  Future<void> _carregarPedidos() async {
+    final prefs = await SharedPreferences.getInstance();
+    final pedidosJson = prefs.getString('pedidos');
+    if (pedidosJson != null) {
+      setState(() {
+        pedidos = List<Map<String, dynamic>>.from(jsonDecode(pedidosJson));
+        pedidos = pedidos.reversed.toList();    
+      });
+    }
+  }
+
   void _mostrarDialogEndereco() async {
     final TextEditingController cpfController = TextEditingController(
       text: enderecoEntrega['cpf'] ?? '',
@@ -342,6 +353,7 @@ class _HomePage2State extends State<HomePage2> {
     super.initState();
     _carregarCarrinho();
     _carregarEndereco();
+    _carregarPedidos();
   }
 
   void _mostrarCarrinho() {
@@ -658,6 +670,18 @@ class _HomePage2State extends State<HomePage2> {
       'preco': 120.99,
       'imagem':
           'https://m.media-amazon.com/images/I/61zXQDYWmcL._AC_UL320_.jpg',
+    },
+    {
+      'nome': 'Creatina Monohidratada Soldiers 300g',
+      'preco': 49.90,
+      'imagem':
+          'https://m.media-amazon.com/images/I/71ZNQQKAUzL._AC_UL320_.jpg',
+    },
+    {
+      'nome': 'Creatina Monohidratada Vitafor 300g',
+      'preco': 60.00,
+      'imagem':
+          'https://m.media-amazon.com/images/I/51MhtOlCGVL._AC_UL320_.jpg',
     },
   ];
 
