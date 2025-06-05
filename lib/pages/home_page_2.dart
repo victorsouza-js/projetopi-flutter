@@ -168,49 +168,69 @@ class _HomePage2State extends State<HomePage2> {
                     ),
             actions: [
               if (pedidos.isNotEmpty)
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                  ),
-                  icon: Icon(Icons.payment),
-                  label: Text(
-                    'Finalizar Compra',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                TextButton(
                   onPressed: () {
+                    setState(() {
+                      pedidos.clear();
+                    });
                     Navigator.pop(context);
-
-                    // Junta todos os produtos de todos os pedidos
-                    final List<Map<String, dynamic>> todosProdutos = [];
-                    double totalGeral = 0.0;
-                    for (var pedido in pedidos) {
-                      for (var produto in pedido['produtos']) {
-                        todosProdutos.add(produto);
-                        totalGeral +=
-                            produto['preco'] * (produto['quantidade'] ?? 1);
-                      }
-                    }
-
-                    final pedidoCompleto = {
-                      'produtos': todosProdutos,
-                      'data': DateTime.now().toString(),
-                      'total': totalGeral,
-                    };
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder:
-                            (context) => PagamentoPage(pedido: pedidoCompleto),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Todos os pedidos foram removidos!'),
                       ),
                     );
                   },
+                  child: Text(
+                    'Limpar Pedidos',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                ),
+                icon: Icon(Icons.payment),
+                label: Text(
+                  'Finalizar Compra',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  // Junta todos os produtos de todos os pedidos
+                  final List<Map<String, dynamic>> todosProdutos = [];
+                  double totalGeral = 0.0;
+                  for (var pedido in pedidos) {
+                    for (var produto in pedido['produtos']) {
+                      todosProdutos.add(produto);
+                      totalGeral +=
+                          produto['preco'] * (produto['quantidade'] ?? 1);
+                    }
+                  }
+
+                  final pedidoCompleto = {
+                    'produtos': todosProdutos,
+                    'data': DateTime.now().toString(),
+                    'total': totalGeral,
+                  };
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => PagamentoPage(pedido: pedidoCompleto),
+                    ),
+                  );
+                },
+              ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text('Fechar'),
