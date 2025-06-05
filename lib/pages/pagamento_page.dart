@@ -91,8 +91,10 @@ class _PagamentoPageState extends State<PagamentoPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...produtos.map<Widget>(
-                      (item) => Padding(
+                    ...produtos.asMap().entries.map((entry) {
+                      final i = entry.key;
+                      final item = entry.value;
+                      return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: Row(
                           children: [
@@ -127,10 +129,22 @@ class _PagamentoPageState extends State<PagamentoPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              tooltip: 'Remover produto',
+                              onPressed: () {
+                                setState(() {
+                                  produtos.removeAt(i);
+                                  if (widget.pedido != null) {
+                                    widget.pedido!['produtos'] = produtos;
+                                  }
+                                });
+                              },
+                            ),
                           ],
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                     Divider(),
                     Align(
                       alignment: Alignment.centerRight,
