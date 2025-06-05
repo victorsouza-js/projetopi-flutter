@@ -723,36 +723,42 @@ class _HomePage2State extends State<HomePage2> {
       'preco': 79.90,
       'imagem':
           'https://m.media-amazon.com/images/I/51gt4U5kD-L._AC_UL320_.jpg',
+      'avaliacao': 4.5,
     },
     {
       'nome': 'Creatina Monohidratada Dark Lab 300g',
       'preco': 54.90,
       'imagem':
           'https://m.media-amazon.com/images/I/81IObjtLiML._AC_UL320_.jpg',
+      'avaliacao': 4.7,
     },
     {
       'nome': 'Creatina Monohidratada Growth Supplements 300g',
       'preco': 68.90,
       'imagem':
           'https://m.media-amazon.com/images/I/61hrHdSCq7L._AC_UL320_.jpg',
+      'avaliacao': 4.0,
     },
     {
       'nome': 'Creatina Monohidratada Integralmedica 300g',
       'preco': 70.00,
       'imagem':
           'https://m.media-amazon.com/images/I/81UashXoAxL._AC_UL320_.jpg',
+      'avaliacao': 4.6,
     },
     {
       'nome': 'Creatina Monohidratada Probiótica 300g',
       'preco': 56.90,
       'imagem':
           'https://m.media-amazon.com/images/I/514imF5uGPL._AC_UL320_.jpg',
+      'avaliacao': 4.7,
     },
     {
       'nome': 'Creatina Monohudratada Dux 300g',
       'preco': 67.99,
       'imagem':
           'https://m.media-amazon.com/images/I/61fB7PV3A7L._AC_UL320_.jpg',
+      'avaliacao': 4.7,
     },
 
     {
@@ -760,30 +766,35 @@ class _HomePage2State extends State<HomePage2> {
       'preco': 120.99,
       'imagem':
           'https://m.media-amazon.com/images/I/61IpPwe99OL._AC_UL320_.jpg',
+      'avaliacao': 5.0,
     },
     {
       'nome': 'Whey Max Titanium x Dr. Peanut 900g s:Bueníssimo',
       'preco': 120.99,
       'imagem':
           'https://m.media-amazon.com/images/I/611DbOCRmFL._AC_UL320_.jpg',
+      'avaliacao': 4.7,
     },
     {
       'nome': 'Whey Max Titanium x Dr. Peanut 900g s:Avelã',
       'preco': 120.99,
       'imagem':
           'https://m.media-amazon.com/images/I/61zXQDYWmcL._AC_UL320_.jpg',
+      'avaliacao': 4.8,
     },
     {
       'nome': 'Creatina Monohidratada Soldiers 300g',
       'preco': 49.90,
       'imagem':
           'https://m.media-amazon.com/images/I/71ZNQQKAUzL._AC_UL320_.jpg',
+      'avaliacao': 5.0,
     },
     {
       'nome': 'Creatina Monohidratada Vitafor 300g',
       'preco': 60.00,
       'imagem':
           'https://m.media-amazon.com/images/I/51MhtOlCGVL._AC_UL320_.jpg',
+      'avaliacao': 4.3,
     },
   ];
 
@@ -1094,104 +1105,174 @@ class _HomePage2State extends State<HomePage2> {
       body: GridView.builder(
         padding: EdgeInsets.all(16),
         itemCount: produtosFiltrados.length,
-
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: 0.72,
+          childAspectRatio: 0.68,
         ),
         itemBuilder: (context, index) {
           final produto = produtosFiltrados[index];
-          return Card(
-            margin: EdgeInsets.all(8),
-            elevation: 6,
-            shape: RoundedRectangleBorder(
+          return Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.orange.withOpacity(0.08),
+                  blurRadius: 12,
+                  offset: Offset(0, 4),
+                ),
+              ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(18),
-                    ),
-                    child: Image.network(
-                      produto['imagem'],
-                      fit: BoxFit.contain,
-                      height: 120,
-                      errorBuilder:
-                          (context, error, stackTrace) =>
-                              Icon(Icons.image, size: 80, color: Colors.grey),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Text(
-                    produto['nome'],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    'R\$ ${produto['preco'].toStringAsFixed(2)}',
-                    style: TextStyle(
-                      color: Colors.orange[800],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                    ),
-                    icon: Icon(Icons.add_shopping_cart),
-                    label: Text('Comprar'),
-                    onPressed: () {
-                      setState(() {
-                        final index = carrinho.indexWhere(
-                          (item) => item['nome'] == produto['nome'],
-                        );
-                        if (index != -1) {
-                          carrinho[index]['quantidade'] =
-                              (carrinho[index]['quantidade'] ?? 1) + 1;
-                        } else {
-                          final novoProduto = Map<String, dynamic>.from(
-                            produto,
-                          );
-                          novoProduto['quantidade'] = 1;
-                          carrinho.add(novoProduto);
-                        }
-                      });
-                      _salvarCarrinho();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${produto['nome']} adicionado ao carrinho!',
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(18),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap: () {
+                  // Aqui você pode abrir detalhes do produto futuramente
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(18),
+                          ),
+                          child: Image.network(
+                            produto['imagem'],
+                            fit: BoxFit.contain,
+                            height: 140,
+                            width: double.infinity,
+                            errorBuilder:
+                                (context, error, stackTrace) => Icon(
+                                  Icons.image,
+                                  size: 80,
+                                  color: Colors.grey,
+                                ),
                           ),
                         ),
-                      );
-                    },
-                  ),
+                        Positioned(
+                          right: 10,
+                          top: 10,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.orange[800],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              'R\$ ${produto['preco'].toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
+                      ),
+                      child: Text(
+                        produto['nome'],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          color: Colors.grey[900],
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(5, (star) {
+                          double nota = produto['avaliacao'] ?? 0.0;
+                          return Icon(
+                            star < nota.floor()
+                                ? Icons.star
+                                : (star < nota
+                                    ? Icons.star_half
+                                    : Icons.star_border),
+                            color: Colors.amber,
+                            size: 18,
+                          );
+                        }),
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange[800],
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 0,
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            final idx = carrinho.indexWhere(
+                              (item) => item['nome'] == produto['nome'],
+                            );
+                            if (idx != -1) {
+                              carrinho[idx]['quantidade'] =
+                                  (carrinho[idx]['quantidade'] ?? 1) + 1;
+                            } else {
+                              final novoProduto = Map<String, dynamic>.from(
+                                produto,
+                              );
+                              novoProduto['quantidade'] = 1;
+                              carrinho.add(novoProduto);
+                            }
+                          });
+                          _salvarCarrinho();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                '${produto['nome']} adicionado ao carrinho!',
+                              ),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_shopping_cart, size: 20),
+                            SizedBox(width: 8),
+                            Text(
+                              'Comprar',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                  ],
                 ),
-                SizedBox(height: 8),
-              ],
+              ),
             ),
           );
         },
