@@ -94,7 +94,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
 
-    
     return Scaffold(
       body: Center(
         child: Form(
@@ -119,7 +118,6 @@ class _HomePageState extends State<HomePage>
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-
               SizedBox(height: 20),
               Padding(
                 padding: EdgeInsets.all(10.0),
