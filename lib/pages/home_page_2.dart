@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:projeto_pi_flutter/pages/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
 
 class HomePage2 extends StatefulWidget {
   const HomePage2({super.key});
@@ -62,6 +63,12 @@ class _HomePage2State extends State<HomePage2> {
                         itemBuilder: (context, index) {
                           final pedido = pedidos[index];
                           final data = DateTime.parse(pedido['data']);
+                          final double totalPedido = pedido['produtos'].fold(
+                            0.0,
+                            (soma, item) =>
+                                soma +
+                                (item['preco'] * (item['quantidade'] ?? 1)),
+                          );
                           return Card(
                             color: Colors.orange.shade50,
                             elevation: 3,
@@ -140,6 +147,18 @@ class _HomePage2State extends State<HomePage2> {
                                       ),
                                     ),
                                   ),
+                                  Divider(),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      'Total: R\$ ${totalPedido.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.orange[800],
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -148,6 +167,50 @@ class _HomePage2State extends State<HomePage2> {
                       ),
                     ),
             actions: [
+              if (pedidos.isNotEmpty)
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                  ),
+                  icon: Icon(Icons.payment),
+                  label: Text(
+                    'Finalizar Compra',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+
+                    // Junta todos os produtos de todos os pedidos
+                    final List<Map<String, dynamic>> todosProdutos = [];
+                    double totalGeral = 0.0;
+                    for (var pedido in pedidos) {
+                      for (var produto in pedido['produtos']) {
+                        todosProdutos.add(produto);
+                        totalGeral +=
+                            produto['preco'] * (produto['quantidade'] ?? 1);
+                      }
+                    }
+
+                    final pedidoCompleto = {
+                      'produtos': todosProdutos,
+                      'data': DateTime.now().toString(),
+                      'total': totalGeral,
+                    };
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => PagamentoPage(pedido: pedidoCompleto),
+                      ),
+                    );
+                  },
+                ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text('Fechar'),
@@ -546,7 +609,7 @@ class _HomePage2State extends State<HomePage2> {
                         ),
                         icon: Icon(Icons.shopping_bag),
                         label: Text(
-                          'Finalizar Compra',
+                          'Concluir Pedido',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -567,7 +630,9 @@ class _HomePage2State extends State<HomePage2> {
                             _salvarCarrinho();
                           }
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Compra finalizada!')),
+                            SnackBar(
+                              content: Text('Pedido realizado com sucesso!'),
+                            ),
                           );
                           setState(() {
                             carrinho.clear();
