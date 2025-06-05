@@ -1202,7 +1202,7 @@ class _HomePage2State extends State<HomePage2> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(5, (star) {
-                          double nota = produto['avaliacao'] ?? 0.0;
+                          double nota = produto['avaliacao'] ?? 4.6;
                           return Icon(
                             star < nota.floor()
                                 ? Icons.star
