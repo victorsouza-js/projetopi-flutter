@@ -41,6 +41,7 @@ dependencies:
   http: ^1.4.0
   dio: ^5.8.0+1
   provider: ^6.1.5
+  badges: ^3.1.2
 http: ^1.2.1
 url_launcher: ^6.1.14
 

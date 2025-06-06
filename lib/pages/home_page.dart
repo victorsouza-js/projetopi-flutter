@@ -19,25 +19,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  Future<void> fetchProducts() async {
-    final response = await http.get(
-      Uri.parse('http://localhost:8000/api/produto'),
-    );
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      print(data);
-    } else {
-      throw Exception('Erro ao carregar produtos');
-    }
-  }
-
+  
   late AnimationController _lottieController;
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final controllerEmail = TextEditingController();
+  final controllerPassword = TextEditingController();
   final RegExp emailRegex = RegExp(
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   );
@@ -128,35 +118,6 @@ class _HomePageState extends State<HomePage>
               ),
               SizedBox(height: 10),
               SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: TextFormField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      FontAwesomeIcons.user,
-                      color: Colors.black,
-                    ),
-                    hintText: 'Username',
-                    hintStyle: TextStyle(color: Colors.black),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.orange),
-                    ),
-                  ),
-
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'O campo de usuário não pode estar vazio.';
-                    }
-                    return null;
-                  },
-                ),
-              ),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextFormField(
@@ -300,36 +261,13 @@ class _HomePageState extends State<HomePage>
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
                 ),
                 onPressed: () async {
-                  await store.login(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  );
-
-                  if (store.error.value.isNotEmpty) {
-                    if (!mounted) return;
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Login ou senha inválidos',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    );
-                  } else {
-                    if (!mounted) return;
-                    Navigator.pushReplacementNamed(context, '/home');
-                  }
-
                   if (_formKey.currentState!.validate()) {
                     if (await validarLogin()) {
                       await _salvarDadosLogin();
                       Navigator.pushNamed(context, '/home2');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Usuário, e-mail ou senha incorretos!'),
-                        ),
+                        SnackBar(content: Text('E-mail e Senha Incorretos!')),
                       );
                     }
                   }

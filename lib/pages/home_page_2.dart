@@ -4,6 +4,8 @@ import 'package:projeto_pi_flutter/pages/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
+import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomePage2 extends StatefulWidget {
   const HomePage2({super.key});
@@ -15,230 +17,6 @@ class HomePage2 extends StatefulWidget {
 class _HomePage2State extends State<HomePage2> {
   List<Map<String, dynamic>> pedidos = [];
   Map<String, String> enderecoEntrega = {};
-
-  void _mostrarPedidos() {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            title: Row(
-              children: [
-                Icon(Icons.receipt_long, color: Colors.orange, size: 28),
-                SizedBox(width: 10),
-                Text(
-                  'Meus Pedidos',
-                  style: TextStyle(
-                    color: Colors.orange[800],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
-            content:
-                pedidos.isEmpty
-                    ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.inbox, size: 60, color: Colors.grey[400]),
-                        SizedBox(height: 16),
-                        Text(
-                          'Nenhum pedido realizado ainda.',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    )
-                    : SizedBox(
-                      width: 340,
-                      height: 350,
-                      child: ListView.builder(
-                        itemCount: pedidos.length,
-                        itemBuilder: (context, index) {
-                          final pedido = pedidos[index];
-                          final data = DateTime.parse(pedido['data']);
-                          final double totalPedido = pedido['produtos'].fold(
-                            0.0,
-                            (soma, item) =>
-                                soma +
-                                (item['preco'] * (item['quantidade'] ?? 1)),
-                          );
-                          return Card(
-                            color: Colors.orange.shade50,
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.orange[200],
-                                        child: Icon(
-                                          Icons.shopping_bag,
-                                          color: Colors.orange[800],
-                                        ),
-                                        radius: 18,
-                                      ),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        child: Text(
-                                          'Pedido #${index + 1}',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Colors.orange[800],
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.grey[700],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 8),
-                                  Divider(),
-                                  ...List.generate(
-                                    pedido['produtos'].length,
-                                    (i) => Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 2.0,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.check_circle,
-                                            color: Colors.orange,
-                                            size: 18,
-                                          ),
-                                          SizedBox(width: 6),
-                                          Expanded(
-                                            child: Text(
-                                              '${pedido['produtos'][i]['nome']}',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                          Text(
-                                            'Qtd: ${pedido['produtos'][i]['quantidade'] ?? 1}',
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.grey[700],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Divider(),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      'Total: R\$ ${totalPedido.toStringAsFixed(2)}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.orange[800],
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-            actions: [
-              if (pedidos.isNotEmpty)
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      pedidos.clear();
-                    });
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Todos os pedidos foram removidos!'),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Limpar Pedidos',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                ),
-                icon: Icon(Icons.payment),
-                label: Text(
-                  'Finalizar Compra',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-
-                  // Junta todos os produtos de todos os pedidos
-                  final List<Map<String, dynamic>> todosProdutos = [];
-                  double totalGeral = 0.0;
-                  for (var pedido in pedidos) {
-                    for (var produto in pedido['produtos']) {
-                      todosProdutos.add(produto);
-                      totalGeral +=
-                          produto['preco'] * (produto['quantidade'] ?? 1);
-                    }
-                  }
-
-                  final pedidoCompleto = {
-                    'produtos': todosProdutos,
-                    'data': DateTime.now().toString(),
-                    'total': totalGeral,
-                  };
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) => PagamentoPage(pedido: pedidoCompleto),
-                    ),
-                  );
-                },
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Fechar'),
-              ),
-            ],
-          ),
-    );
-  }
 
   Future<void> _salvarCarrinho() async {
     final prefs = await SharedPreferences.getInstance();
@@ -271,16 +49,6 @@ class _HomePage2State extends State<HomePage2> {
     setState(() {
       enderecoEntrega = endereco;
     });
-  }
-
-  Future<void> _carregarPedidos() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonStr = prefs.getString('pedidos');
-    if (jsonStr != null) {
-      setState(() {
-        pedidos = List<Map<String, dynamic>>.from(jsonDecode(jsonStr));
-      });
-    }
   }
 
   void _mostrarDialogEndereco() async {
@@ -473,7 +241,6 @@ class _HomePage2State extends State<HomePage2> {
     super.initState();
     _carregarCarrinho();
     _carregarEndereco();
-    _carregarPedidos();
   }
 
   void _mostrarCarrinho() {
@@ -1079,37 +846,40 @@ class _HomePage2State extends State<HomePage2> {
                 icon: Icon(FontAwesomeIcons.user),
               ),
               SizedBox(width: 10),
-              Stack(
-                children: [
-                  IconButton(
-                    onPressed: _mostrarCarrinho,
-                    icon: Icon(FontAwesomeIcons.cartShopping),
+              IconButton(
+                icon: badges.Badge(
+                  showBadge: carrinho.isNotEmpty,
+                  badgeContent: Text(
+                    carrinho
+                        .fold<int>(
+                          0,
+                          (soma, item) =>
+                              soma + ((item['quantidade'] ?? 1) as int),
+                        )
+                        .toString(),
+                    style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
-                  if (carrinho.isNotEmpty)
-                    Positioned(
-                      right: 4,
-                      top: 4,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          '${carrinho.length}',
-                          style: TextStyle(color: Colors.white, fontSize: 12),
-                        ),
-                      ),
+                  badgeStyle: badges.BadgeStyle(
+                    badgeColor: Colors.red,
+                    padding: EdgeInsets.all(6),
+                  ),
+                  child: Icon(Icons.shopping_cart),
+                ),
+                onPressed: () async {
+                  // Aguarda o retorno da tela do carrinho
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CarrinhoPage(carrinho: carrinho),
                     ),
-                ],
+                  );
+                  setState(() {}); // Atualiza o badge ao voltar
+                },
               ),
               SizedBox(width: 10),
               IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.bell)),
               SizedBox(width: 10),
-              IconButton(
-                onPressed: _mostrarPedidos,
-                icon: Icon(Icons.receipt_long),
-              ),
+
               SizedBox(width: 10),
               IconButton(
                 onPressed: _mostrarDialogEndereco,
