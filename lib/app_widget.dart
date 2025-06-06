@@ -120,6 +120,7 @@ class AppWidget extends StatelessWidget {
                         'https://m.media-amazon.com/images/I/51MhtOlCGVL._AC_UL320_.jpg',
                     'avaliacao': 4.3,
                   },
+                  
                 ],
               ),
         },
