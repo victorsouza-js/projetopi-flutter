@@ -5,6 +5,10 @@ import 'package:lottie/lottie.dart';
 import 'package:projeto_pi_flutter/pages/profile_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:projeto_pi_flutter/data/repositories/user_repository.dart';
+import 'package:projeto_pi_flutter/pages/login/store/user_store.dart';
+import 'package:projeto_pi_flutter/data/http/http_client.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -93,6 +97,11 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    final dioClient = Provider.of<DioClient>(context);
+
+    UserStore store = UserStore(repository: UserRepository(client: dioClient));
+
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Center(
@@ -282,6 +291,8 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
               SizedBox(height: 20),
+
+              SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
@@ -289,6 +300,27 @@ class _HomePageState extends State<HomePage>
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
                 ),
                 onPressed: () async {
+                  await store.login(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  );
+
+                  if (store.error.value.isNotEmpty) {
+                    if (!mounted) return;
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Login ou senha inválidos',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    );
+                  } else {
+                    if (!mounted) return;
+                    Navigator.pushReplacementNamed(context, '/home');
+                  }
+
                   if (_formKey.currentState!.validate()) {
                     if (await validarLogin()) {
                       await _salvarDadosLogin();
