@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PagamentoPage extends StatefulWidget {
-  final Map<String, dynamic>? pedido; // Passe o pedido ao navegar
+
+  
+  final Map<String, dynamic>? pedido; 
+  // Passe o pedido ao navegar
 
   const PagamentoPage({Key? key, this.pedido}) : super(key: key);
 

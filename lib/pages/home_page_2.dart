@@ -245,68 +245,6 @@ class _HomePage2State extends State<HomePage2> {
 
   List<Map<String, dynamic>> carrinho = [];
 
-  Future<void> _mostrarContaUsuario() async {
-    final prefs = await SharedPreferences.getInstance();
-    final username = prefs.getString('username') ?? 'Não informado';
-    final email = prefs.getString('email') ?? 'Não informado';
-
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(width: 10),
-                Text(
-                  'Minha Conta',
-                  style: TextStyle(
-                    color: Colors.orange[800],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Colors.orange.shade100,
-                  child: Icon(
-                    FontAwesomeIcons.user,
-                    color: Colors.orange,
-                    size: 50,
-                  ),
-                ),
-                SizedBox(height: 18),
-                Text(
-                  username,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 8),
-                Text(
-                  email,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Fechar'),
-              ),
-            ],
-          ),
-    );
-  }
-
   final TextEditingController _searchController = TextEditingController();
 
   String searchText = '';
@@ -648,10 +586,6 @@ class _HomePage2State extends State<HomePage2> {
         actions: [
           Row(
             children: [
-              IconButton(
-                onPressed: _mostrarContaUsuario,
-                icon: Icon(FontAwesomeIcons.user),
-              ),
               SizedBox(width: 10),
               IconButton(
                 icon: badges.Badge(
@@ -683,6 +617,7 @@ class _HomePage2State extends State<HomePage2> {
                   setState(() {}); // Atualiza o badge ao voltar
                 },
               ),
+
               SizedBox(width: 10),
               IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.bell)),
               SizedBox(width: 10),
@@ -693,6 +628,33 @@ class _HomePage2State extends State<HomePage2> {
                 icon: Icon(FontAwesomeIcons.locationDot),
               ),
               SizedBox(width: 10),
+              PopupMenuButton<String>(
+                icon: Icon(Icons.more_vert, color: Colors.white),
+                onSelected: (value) async {
+                  if (value == 'logout') {
+                    // Aqui você pode salvar o carrinho, limpar dados, etc.
+                    await _salvarCarrinho();
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/home',
+                      (route) => false,
+                    );
+                  }
+                },
+                itemBuilder:
+                    (context) => [
+                      PopupMenuItem(
+                        value: 'logout',
+                        child: Row(
+                          children: [
+                            Icon(Icons.logout, color: Colors.red),
+                            SizedBox(width: 8),
+                            Text('Sair'),
+                          ],
+                        ),
+                      ),
+                    ],
+              ),
             ],
           ),
         ],

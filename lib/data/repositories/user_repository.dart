@@ -1,9 +1,9 @@
-
 import 'package:projeto_pi_flutter/data/http/endpoints.dart';
 import 'package:projeto_pi_flutter/data/http/exceptions.dart';
 import 'package:projeto_pi_flutter/data/http/http_client.dart';
 import 'package:projeto_pi_flutter/data/local/local_storage.dart';
 import 'package:projeto_pi_flutter/data/models/user_model.dart';
+
 class UserRepository {
   final IHttpClient client;
 
@@ -19,7 +19,7 @@ class UserRepository {
       final body = response.data;
 
       if (body is Map<String, dynamic>) {
-        UserModel user = UserModel.fromMap(body);
+        UserModel user = UserModel.fromMap(body['user']);
         return user;
       } else {
         throw const FormatException('Formato de resposta inválido');

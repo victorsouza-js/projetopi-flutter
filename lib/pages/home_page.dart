@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_pi_flutter/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
@@ -19,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  
   late AnimationController _lottieController;
 
   final _formKey = GlobalKey<FormState>();
@@ -88,6 +88,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     final dioClient = Provider.of<DioClient>(context);
+    final userRepository = UserRepository(client: dioClient);
 
     UserStore store = UserStore(repository: UserRepository(client: dioClient));
 
@@ -222,7 +223,10 @@ class _HomePageState extends State<HomePage>
                       },
                       activeColor: Colors.orange,
                     ),
-                    Text('Lembrar de mim'),
+                    Text(
+                      'Lembre-se de mim',
+                      style: TextStyle(fontSize: 13, color: Colors.black),
+                    ),
                   ],
                 ),
               ),
@@ -261,6 +265,23 @@ class _HomePageState extends State<HomePage>
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
                 ),
                 onPressed: () async {
+                  /* if (_formKey.currentState!.validate()) {
+                    UserModel user = await userRepository.login(
+                      data: {
+                        'email': _emailController.text,
+                        'password': _passwordController.text,
+                      },
+                    );
+                    if (user.name != '') {
+                      await _salvarDadosLogin();
+                      Navigator.pushNamed(context, '/home2');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('E-mail e Senha Incorretos!')),
+                      );
+                    }
+                  } */
+
                   if (_formKey.currentState!.validate()) {
                     if (await validarLogin()) {
                       await _salvarDadosLogin();
