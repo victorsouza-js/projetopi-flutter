@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:projeto_pi_flutter/data/http/http_client.dart';
 import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
 import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
+import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});

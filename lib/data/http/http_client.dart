@@ -86,6 +86,6 @@ class DioClient implements IHttpClient {
       url,
       data: data,
       options: Options(headers: headers),
-    );
-  }
+);
+}
 }

@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-  /// Clean up animation controller resources used by the page.
+  
   void dispose() {
     _lottieController.dispose();
     super.dispose();
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage>
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
                 ),
                 onPressed: () async {
-                  /* if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     UserModel user = await userRepository.login(
                       data: {
                         'email': _emailController.text,
@@ -280,9 +280,9 @@ class _HomePageState extends State<HomePage>
                         SnackBar(content: Text('E-mail e Senha Incorretos!')),
                       );
                     }
-                  } */
+                  }
 
-                  if (_formKey.currentState!.validate()) {
+                  /* if (_formKey.currentState!.validate()) {
                     if (await validarLogin()) {
                       await _salvarDadosLogin();
                       Navigator.pushNamed(context, '/home2');
@@ -291,7 +291,7 @@ class _HomePageState extends State<HomePage>
                         SnackBar(content: Text('E-mail e Senha Incorretos!')),
                       );
                     }
-                  }
+                  } */
                 },
                 child: Text('Entrar', style: TextStyle(fontSize: 15)),
               ),

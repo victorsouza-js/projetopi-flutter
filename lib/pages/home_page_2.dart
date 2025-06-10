@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
 import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
 
 class HomePage2 extends StatefulWidget {
   const HomePage2({super.key});
@@ -17,6 +18,7 @@ class HomePage2 extends StatefulWidget {
 class _HomePage2State extends State<HomePage2> {
   List<Map<String, dynamic>> pedidos = [];
   Map<String, String> enderecoEntrega = {};
+  List<String> favoritos = [];
 
   Future<void> _salvarCarrinho() async {
     final prefs = await SharedPreferences.getInstance();
@@ -689,199 +691,39 @@ class _HomePage2State extends State<HomePage2> {
               borderRadius: BorderRadius.circular(18),
               child: InkWell(
                 borderRadius: BorderRadius.circular(18),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder:
-                        (context) => AlertDialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          title: Row(
-                            children: [
-                              Icon(Icons.info, color: Colors.orange),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  produto['nome'],
-                                  style: TextStyle(
-                                    color: Colors.orange[800],
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Image.network(
-                                  produto['imagem'],
-                                  height: 120,
-                                  fit: BoxFit.contain,
-                                  errorBuilder:
-                                      (context, error, stackTrace) => Icon(
-                                        Icons.image,
-                                        size: 80,
-                                        color: Colors.grey,
-                                      ),
-                                ),
-                              ),
-                              SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: List.generate(5, (star) {
-                                  double nota = produto['avaliacao'] ?? 4.6;
-                                  return Icon(
-                                    star < nota.floor()
-                                        ? Icons.star
-                                        : (star < nota
-                                            ? Icons.star_half
-                                            : Icons.star_border),
-                                    color: Colors.amber,
-                                    size: 20,
-                                  );
-                                }),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Preço: R\$ ${produto['preco'].toStringAsFixed(2)}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange[800],
-                                  fontSize: 16,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Formas de pagamento:',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey[800],
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.credit_card,
-                                        color: Colors.blue,
-                                        size: 28,
-                                      ),
-                                      SizedBox(height: 2),
-                                      Text(
-                                        'Crédito',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 18),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.pix,
-                                        color: Colors.green,
-                                        size: 28,
-                                      ),
-                                      SizedBox(height: 2),
-                                      Text(
-                                        'Pix',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 18),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.receipt_long,
-                                        color: Colors.orange,
-                                        size: 28,
-                                      ),
-                                      SizedBox(height: 2),
-                                      Text(
-                                        'Boleto',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(width: 18),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.attach_money,
-                                        color: Colors.teal,
-                                        size: 28,
-                                      ),
-                                      SizedBox(height: 2),
-                                      Text(
-                                        'Dinheiro',
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 12),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('Fechar'),
-                            ),
-                            ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              icon: Icon(Icons.add_shopping_cart),
-                              label: Text('Adicionar ao Carrinho'),
-                              onPressed: () {
-                                setState(() {
-                                  final idx = carrinho.indexWhere(
-                                    (item) => item['nome'] == produto['nome'],
-                                  );
-                                  if (idx != -1) {
-                                    carrinho[idx]['quantidade'] =
-                                        (carrinho[idx]['quantidade'] ?? 1) + 1;
-                                  } else {
-                                    final novoProduto =
-                                        Map<String, dynamic>.from(produto);
-                                    novoProduto['quantidade'] = 1;
-                                    carrinho.add(novoProduto);
-                                  }
-                                });
-                                _salvarCarrinho();
-                                Navigator.pop(context);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      '${produto['nome']} adicionado ao carrinho!',
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                onTap: () async {
+                  final produtoSelecionado = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => ProdutoDetalhePage(produto: produto),
+                    ),
                   );
-                  // Aqui você pode abrir detalhes do produto futuramente
+                  if (produtoSelecionado != null) {
+                    setState(() {
+                      final idx = carrinho.indexWhere(
+                        (item) => item['nome'] == produtoSelecionado['nome'],
+                      );
+                      if (idx != -1) {
+                        carrinho[idx]['quantidade'] =
+                            (carrinho[idx]['quantidade'] ?? 1) + 1;
+                      } else {
+                        final novoProduto = Map<String, dynamic>.from(
+                          produtoSelecionado,
+                        );
+                        novoProduto['quantidade'] = 1;
+                        carrinho.add(novoProduto);
+                      }
+                    });
+                    _salvarCarrinho();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '${produtoSelecionado['nome']} adicionado ao carrinho!',
+                        ),
+                      ),
+                    );
+                  }
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

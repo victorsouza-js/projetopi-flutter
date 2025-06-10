@@ -11,7 +11,7 @@ class UserRepository {
 
   Future<UserModel> login({Map<String, dynamic>? data}) async {
     final response = await client.post(
-      url: '${Endpoints.baseUrl}/login',
+      url: '${Endpoints.baseUrl}login',
       data: data,
     );
 
@@ -58,6 +58,6 @@ class UserRepository {
       throw Exception('Não encontrado');
     } else {
       throw NotFoundException('Não foi possível carregar os dados');
-    }
-  }
+}
+}
 }
