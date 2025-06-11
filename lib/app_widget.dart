@@ -121,7 +121,57 @@ class AppWidget extends StatelessWidget {
                         'https://m.media-amazon.com/images/I/51MhtOlCGVL._AC_UL320_.jpg',
                     'avaliacao': 4.3,
                   },
-                  
+                  {
+                    'nome':
+                        '3VS Nutrition Pré Treino Prohibido 180g Sabor Maça Verde',
+                    'preco': 60.00,
+                    'imagem':
+                        'https://m.media-amazon.com/images/I/61UESDpLUJL.AC_UL320.jpg',
+                    'avaliacao': 4.3,
+                  },
+                  {
+                    'nome': 'FTW Pré-Treino Diabo Verde 300g',
+                    'preco': 68.05,
+                    'imagem':
+                        'https://m.media-amazon.com/images/I/612LVlrz2jL.AC_UL320.jpg',
+                    'avaliacao': 4.2,
+                  },
+                  {
+                    'nome':
+                        '3VS Nutrition Pré-Treino Beast 300g Sabor Frutas Vermelhas',
+                    'preco': 57.81,
+                    'imagem':
+                        'https://m.media-amazon.com/images/I/610o1NRDbML.AC_UL320.jpg',
+                    'avaliacao': 4.7,
+                  },
+                  {
+                    'nome': 'Pré-Treino Venom 300g Dark Lab',
+                    'preco': 99.00,
+                    'imagem':
+                        'https://m.media-amazon.com/images/I/81pdnNjl82L.AC_UL320.jpg',
+                    'avaliacao': 5.0,
+                  },
+                  {
+                    'nome': 'Panic Pré Workout Morango 300g',
+                    'preco': 78.95,
+                    'imagem':
+                        'https://m.media-amazon.com/images/I/71D+u3oWo0L.AC_UL320.jpg',
+                    'avaliacao': 4.8,
+                  },
+                  {
+                    'nome': 'Top Whey 3W Max 900g Sabor: Brigadeiro',
+                    'preco': 130.90,
+                    'imagem':
+                        'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157615-1920-0/top-whey-3w-max-titanium-900g-sabor-brigadeiro-1.jpg?v=638351456579070000',
+                    'avaliacao': 5.0,
+                  },
+                  {
+                    'nome': '100% Whey Dino Pote Max 900G Sabor: Cappuccino',
+                    'preco': 150.00,
+                    'imagem':
+                        'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157990-1920-0/100-Whey-Pote-900g-LinhaDino-Cappuccino.png?v=638524935006700000',
+                    'avaliacao': 4.4,
+                  },
                 ],
               ),
         },

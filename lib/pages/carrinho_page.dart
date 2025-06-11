@@ -141,7 +141,7 @@ class _CarrinhoPageState extends State<CarrinhoPage>
                             item['imagem'],
                             width: 60,
                             height: 60,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             errorBuilder:
                                 (_, __, ___) => Icon(
                                   Icons.image,

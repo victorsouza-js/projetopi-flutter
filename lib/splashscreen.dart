@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             SizedBox(height: 24),
             Text(
-              'Bem-vindo ao FitXpert',
+              'FitXpert',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 28,
@@ -52,10 +52,6 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
             SizedBox(height: 12),
-            Text(
-              'Seu app de treino e saúde!',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
           ],
         ),
       ),
