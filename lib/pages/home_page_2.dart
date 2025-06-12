@@ -374,6 +374,41 @@ class _HomePage2State extends State<HomePage2> {
           'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157990-1920-0/100-Whey-Pote-900g-LinhaDino-Cappuccino.png?v=638524935006700000',
       'avaliacao': 4.4,
     },
+    {
+      'nome': 'Insane Original - 300g Orange Demon - Demons Lab',
+      'preco': 106.00,
+      'imagem':
+          'https://m.media-amazon.com/images/I/61RwjMrWnWL._AC_UL320_.jpg',
+      'avaliacao': 4.7,
+    },
+    {
+      'nome': 'Pré Treino Insane Clown 350g Pre Workout - Demons Lab (Blue Crystal)',
+      'preco': 105.95,
+      'imagem':
+          'https://m.media-amazon.com/images/I/61YW0lLDqLL._AC_UL320_.jpg',
+      'avaliacao': 5.0,
+    },
+    {
+      'nome': 'Suplemento em Pó Insane Clown 350g Demons Lab Tutti Frutii',
+      'preco': 109.05,
+      'imagem':
+          'https://http2.mlstatic.com/D_Q_NP_2X_650678-MLA79685725483_102024-E.webp',
+      'avaliacao': 4.7,
+    },
+    {
+      'nome': 'Pré Treino Insane Clown Blue Vanilha 350g - Demons Lab',
+      'preco': 114.05,
+      'imagem':
+          'https://http2.mlstatic.com/D_Q_NP_2X_941875-MLB78274642433_082024-E-pre-treino-insane-clown-blue-vanilha-350g-demons-lab.webp',
+      'avaliacao': 4.5,
+    },
+    {
+      'nome': 'Creatina Monohidratada 1Kg 100% Pura Soldiers Nutrition Sem Sabor',
+      'preco': 130.00,
+      'imagem':
+          'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
+      'avaliacao': 4.8,
+    },
   ];
 
   @override
