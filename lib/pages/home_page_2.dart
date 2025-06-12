@@ -363,16 +363,17 @@ class _HomePage2State extends State<HomePage2> {
     {
       'nome': 'Top Whey 3W Max 900g Sabor: Brigadeiro',
       'preco': 130.90,
-      'imagem': 'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157615-1920-0/top-whey-3w-max-titanium-900g-sabor-brigadeiro-1.jpg?v=638351456579070000',
+      'imagem':
+          'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157615-1920-0/top-whey-3w-max-titanium-900g-sabor-brigadeiro-1.jpg?v=638351456579070000',
       'avaliacao': 5.0,
     },
     {
       'nome': '100% Whey Dino Pote Max 900G Sabor: Cappuccino',
       'preco': 150.00,
-      'imagem': 'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157990-1920-0/100-Whey-Pote-900g-LinhaDino-Cappuccino.png?v=638524935006700000',
+      'imagem':
+          'https://lojamaxtitanium.vtexassets.com/arquivos/ids/157990-1920-0/100-Whey-Pote-900g-LinhaDino-Cappuccino.png?v=638524935006700000',
       'avaliacao': 4.4,
     },
-
   ];
 
   @override
@@ -759,13 +760,6 @@ class _HomePage2State extends State<HomePage2> {
                       }
                     });
                     _salvarCarrinho();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '${produtoSelecionado['nome']} adicionado ao carrinho!',
-                        ),
-                      ),
-                    );
                   }
                 },
                 child: Column(
@@ -789,7 +783,6 @@ class _HomePage2State extends State<HomePage2> {
                                   color: Colors.grey,
                                 ),
                           ),
-                          
                         ),
                       ],
                     ),
@@ -811,17 +804,17 @@ class _HomePage2State extends State<HomePage2> {
                       ),
                     ),
                     Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            'R\$ ${produto['preco'].toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 19,
-                              color: Colors.orange[800],
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        'R\$ ${produto['preco'].toStringAsFixed(2)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                          color: Colors.orange[800],
                         ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                     Spacer(),
                     SizedBox(height: 6),
                     Padding(
