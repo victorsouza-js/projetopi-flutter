@@ -672,6 +672,7 @@ class _HomePage2State extends State<HomePage2> {
             children: [
               SizedBox(width: 10),
               IconButton(
+                tooltip: 'Carrinho',
                 icon: badges.Badge(
                   showBadge: carrinho.isNotEmpty,
                   badgeContent: Text(
@@ -722,6 +723,7 @@ class _HomePage2State extends State<HomePage2> {
 
               SizedBox(width: 10),
               IconButton(
+                tooltip: 'Endereço de Entrega',
                 onPressed: _mostrarDialogEndereco,
                 icon: Icon(FontAwesomeIcons.locationDot),
               ),
