@@ -7,6 +7,7 @@ import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
 import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
+import 'package:projeto_pi_flutter/pages/pedidos.dart';
 
 class HomePage2 extends StatefulWidget {
   const HomePage2({super.key});
@@ -382,7 +383,8 @@ class _HomePage2State extends State<HomePage2> {
       'avaliacao': 4.7,
     },
     {
-      'nome': 'Pré Treino Insane Clown 350g Pre Workout - Demons Lab (Blue Crystal)',
+      'nome':
+          'Pré Treino Insane Clown 350g Pre Workout - Demons Lab (Blue Crystal)',
       'preco': 105.95,
       'imagem':
           'https://m.media-amazon.com/images/I/61YW0lLDqLL._AC_UL320_.jpg',
@@ -403,7 +405,8 @@ class _HomePage2State extends State<HomePage2> {
       'avaliacao': 4.5,
     },
     {
-      'nome': 'Creatina Monohidratada 1Kg 100% Pura Soldiers Nutrition Sem Sabor',
+      'nome':
+          'Creatina Monohidratada 1Kg 100% Pura Soldiers Nutrition Sem Sabor',
       'preco': 130.00,
       'imagem':
           'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
@@ -702,6 +705,20 @@ class _HomePage2State extends State<HomePage2> {
               SizedBox(width: 10),
               IconButton(onPressed: () {}, icon: Icon(FontAwesomeIcons.bell)),
               SizedBox(width: 10),
+              IconButton(
+                icon: Icon(Icons.receipt_long), // Ícone de pedidos
+                tooltip: 'Pedidos Finalizados',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) =>
+                              PedidosFinalizadosPage(), // Crie essa página!
+                    ),
+                  );
+                },
+              ),
 
               SizedBox(width: 10),
               IconButton(

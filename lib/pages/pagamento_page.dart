@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:projeto_pi_flutter/data/repositories/pedidos_repository.dart';
 
 class PagamentoPage extends StatefulWidget {
   final Map<String, dynamic>? pedido;
@@ -229,6 +230,12 @@ class _PagamentoPageState extends State<PagamentoPage> {
                   // ...dentro do onPressed do botão Confirmar Pagamento...
 
                   if (metodoSelecionado == 'Pix') {
+                    PedidosRepository().adicionarPedido({
+                      'id': DateTime.now().millisecondsSinceEpoch,
+                      'data': DateTime.now().toString().substring(0, 10),
+                      'total': total,
+                      'produtos': List.from(produtos),
+                    });
                     final chavePix = '123e4567-pix-chave-exemplo@banco.com';
                     showDialog(
                       context: context,
@@ -330,6 +337,12 @@ class _PagamentoPageState extends State<PagamentoPage> {
                           ),
                     );
                   } else if (metodoSelecionado == 'Boleto Bancário') {
+                    PedidosRepository().adicionarPedido({
+                      'id': DateTime.now().millisecondsSinceEpoch,
+                      'data': DateTime.now().toString().substring(0, 10),
+                      'total': total,
+                      'produtos': List.from(produtos),
+                    });
                     final linhaDigitavel =
                         '23793.38128 60007.135308 04000.123456 1 81230000010000';
                     showDialog(
@@ -401,9 +414,7 @@ class _PagamentoPageState extends State<PagamentoPage> {
                                       SnackBar(
                                         content: Row(
                                           children: [
-                                            Icon(
-                                              Icons.check,
-                                            ),
+                                            Icon(Icons.check),
                                             SizedBox(width: 8),
                                             Text('Código do boleto copiado!'),
                                           ],
@@ -434,6 +445,12 @@ class _PagamentoPageState extends State<PagamentoPage> {
                           ),
                     );
                   } else if (metodoSelecionado == 'Cartão de Crédito') {
+                    PedidosRepository().adicionarPedido({
+                      'id': DateTime.now().millisecondsSinceEpoch,
+                      'data': DateTime.now().toString().substring(0, 10),
+                      'total': total,
+                      'produtos': List.from(produtos),
+                    });
                     final _formKey = GlobalKey<FormState>();
                     String nome = '';
                     String numero = '';
@@ -629,6 +646,12 @@ class _PagamentoPageState extends State<PagamentoPage> {
                           ),
                     );
                   } else if (metodoSelecionado == 'Dinheiro na Entrega') {
+                    PedidosRepository().adicionarPedido({
+                      'id': DateTime.now().millisecondsSinceEpoch,
+                      'data': DateTime.now().toString().substring(0, 10),
+                      'total': total,
+                      'produtos': List.from(produtos),
+                    });
                     showDialog(
                       context: context,
                       builder:
@@ -647,7 +670,7 @@ class _PagamentoPageState extends State<PagamentoPage> {
                                   Icons.attach_money,
                                   color: Colors.teal,
                                   size: 60,
-                              ),
+                                ),
                                 SizedBox(height: 12),
                                 Text(
                                   'Pagamento em Dinheiro',
