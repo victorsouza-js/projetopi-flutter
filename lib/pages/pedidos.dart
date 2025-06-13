@@ -140,9 +140,16 @@ class PedidosFinalizadosPage extends StatelessWidget {
                                       ),
                                       SizedBox(height: 12),
                                       if (pedido['nome'] != null) ...[
-                                        Text('Nome: ${pedido['nome']}'),
-                                        Text('CPF: ${pedido['cpf']}'),
-                                        Text('E-mail: ${pedido['email']}'),
+                                        Text('Nome: ${pedido['nome']}',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
+                                        Text('CPF: ${pedido['cpf']}',
+                                          style: TextStyle(fontSize: 16),
+                                          
+                                        ),
+                                        Text('E-mail: ${pedido['email']}',
+                                          style: TextStyle(fontSize: 16),
+                                        ),
                                         SizedBox(height: 8),
                                       ],
                                       Text(
