@@ -11,6 +11,7 @@ import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
 import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
 import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
 import 'package:projeto_pi_flutter/pages/pedidos.dart';
+import 'package:projeto_pi_flutter/cadastro_produtos.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
@@ -40,6 +41,7 @@ class AppWidget extends StatelessWidget {
           '/profile': (context) => ProfilePage(),
           '/splash': (context) => SplashScreen(),
           '/pagamento': (context) => PagamentoPage(),
+          '/admin/add-produto': (context) => AdminAddProdutoPage(),
           '/carrinho':
               (context) => CarrinhoPage(
                 carrinho: [

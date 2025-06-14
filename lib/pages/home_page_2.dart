@@ -432,6 +432,13 @@ class _HomePage2State extends State<HomePage2> {
             Icon(Icons.account_circle, color: Colors.white, size: 100),
             SizedBox(height: 20),
             ListTile(
+              leading: Icon(Icons.add_box, color: Colors.orange),
+              title: Text('Cadastrar Produto', style: TextStyle(color: Colors.white)),
+              onTap: () {
+                Navigator.pushNamed(context, '/admin/add-produto');
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.home, color: Colors.white),
               title: Text('Home', style: TextStyle(color: Colors.white)),
               onTap: () {
