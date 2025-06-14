@@ -7,11 +7,10 @@ import 'package:projeto_pi_flutter/splashscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:projeto_pi_flutter/data/http/http_client.dart';
-import 'package:projeto_pi_flutter/pages/pagamento_page.dart';
+import 'package:projeto_pi_flutter/pages/pagamento_page.dart' as pagamento;
 import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
 import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
 import 'package:projeto_pi_flutter/pages/pedidos.dart';
-
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
 
@@ -39,7 +38,7 @@ class AppWidget extends StatelessWidget {
           '/cadastro': (context) => Cadastro(),
           '/profile': (context) => ProfilePage(),
           '/splash': (context) => SplashScreen(),
-          '/pagamento': (context) => PagamentoPage(),
+          '/pagamento': (context) => pagamento.PagamentoPage(),
           '/carrinho':
               (context) => CarrinhoPage(
                 carrinho: [

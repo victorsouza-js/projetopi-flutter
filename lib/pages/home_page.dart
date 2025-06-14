@@ -79,7 +79,6 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-  
   void dispose() {
     _lottieController.dispose();
     super.dispose();
@@ -297,6 +296,256 @@ class _HomePageState extends State<HomePage>
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class PagamentoPage extends StatefulWidget {
+  final dynamic pedido; // Altere para o tipo correto, se necessário
+
+  const PagamentoPage({Key? key, this.pedido}) : super(key: key);
+
+  @override
+  _PagamentoPageState createState() => _PagamentoPageState();
+}
+
+class _PagamentoPageState extends State<PagamentoPage>
+    with SingleTickerProviderStateMixin {
+  String metodoSelecionado = 'Cartão de Crédito';
+  bool _loading = false;
+  bool _showResumo = false; // Para controlar a animação
+
+  @override
+  void initState() {
+    super.initState();
+    // Dispara a animação após o build
+    Future.delayed(Duration(milliseconds: 200), () {
+      if (mounted) setState(() => _showResumo = true);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final pedido = widget.pedido;
+    double total = 0.0;
+    List produtos = [];
+
+    if (pedido != null) {
+      produtos = pedido['produtos'] ?? [];
+      total = produtos.fold(
+        0.0,
+        (soma, item) => soma + (item['preco'] * (item['quantidade'] ?? 1)),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Pagamento'), backgroundColor: Colors.orange),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(child: Icon(Icons.payments, color: Colors.orange, size: 60)),
+            SizedBox(height: 12),
+            Center(
+              child: Text(
+                'Resumo do Pedido',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.orange[800],
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            // --- Card animado ---
+            AnimatedSlide(
+              offset: _showResumo ? Offset(0, 0) : Offset(0, 0.2),
+              duration: Duration(milliseconds: 600),
+              curve: Curves.easeOutBack,
+              child: AnimatedOpacity(
+                opacity: _showResumo ? 1 : 0,
+                duration: Duration(milliseconds: 600),
+                child: Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(14.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...produtos.asMap().entries.map((entry) {
+                          final i = entry.key;
+                          final item = entry.value;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    item['imagem'] ?? '',
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.contain,
+                                    errorBuilder:
+                                        (_, __, ___) => Icon(
+                                          Icons.image,
+                                          color: Colors.orange,
+                                        ),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    item['nome'],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  'Qtd: ${item['quantidade'] ?? 1}',
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'R\$ ${(item['preco'] * (item['quantidade'] ?? 1)).toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    color: Colors.orange[800],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  tooltip: 'Remover produto',
+                                  onPressed: () async {
+                                    final confirm = await showDialog<bool>(
+                                      context: context,
+                                      builder:
+                                          (context) => AlertDialog(
+                                            title: Text('Remover produto'),
+                                            content: Text(
+                                              'Tem certeza que deseja remover este produto do carrinho?',
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                onPressed:
+                                                    () => Navigator.pop(
+                                                      context,
+                                                      false,
+                                                    ),
+                                                child: Text('Cancelar'),
+                                              ),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.red,
+                                                  foregroundColor: Colors.white,
+                                                ),
+                                                onPressed:
+                                                    () => Navigator.pop(
+                                                      context,
+                                                      true,
+                                                    ),
+                                                child: Text('Remover'),
+                                              ),
+                                            ],
+                                          ),
+                                    );
+                                    if (confirm == true) {
+                                      setState(() {
+                                        produtos.removeAt(i);
+                                        if (widget.pedido != null) {
+                                          widget.pedido!['produtos'] = produtos;
+                                        }
+                                      });
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                        Divider(),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            'Total: R\$ ${total.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange[800],
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // --- Fim do card animado ---
+            SizedBox(height: 24),
+            Text(
+              'Método de Pagamento',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: ListTile(
+                    title: Text('Cartão de Crédito'),
+                    leading: Radio<String>(
+                      value: 'Cartão de Crédito',
+                      groupValue: metodoSelecionado,
+                      onChanged: (value) {
+                        setState(() {
+                          metodoSelecionado = value!;
+                        });
+                      },
+                      activeColor: Colors.orange,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Text('Boleto'),
+                    leading: Radio<String>(
+                      value: 'Boleto',
+                      groupValue: metodoSelecionado,
+                      onChanged: (value) {
+                        setState(() {
+                          metodoSelecionado = value!;
+                        });
+                      },
+                      activeColor: Colors.orange,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 24),
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Colors.orange,
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                ),
+                onPressed: () {
+                  // Ação do botão de finalizar pagamento
+                },
+                child: Text(
+                  'Finalizar Pagamento',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
