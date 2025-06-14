@@ -86,170 +86,315 @@ class _HomePage2State extends State<HomePage2> {
 
     await showDialog(
       context: context,
+      barrierDismissible: false,
       builder:
-          (context) => AlertDialog(
+          (context) => Dialog(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(24),
             ),
-            elevation: 8,
-            titlePadding: EdgeInsets.only(
-              top: 24,
-              left: 24,
-              right: 24,
-              bottom: 0,
-            ),
-            title: Column(
-              children: [
-                CircleAvatar(
-                  radius: 32,
-                  backgroundColor: Colors.orange.shade100,
-                  child: Icon(
-                    Icons.location_on,
-                    color: Colors.orange,
-                    size: 36,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 400),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 20,
+                    offset: Offset(0, 10),
                   ),
-                ),
-                SizedBox(height: 12),
-                Text(
-                  'Endereço de Entrega',
-                  style: TextStyle(
-                    color: Colors.orange[800],
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                  ),
-                ),
-              ],
-            ),
-            content: SingleChildScrollView(
+                ],
+              ),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 8),
-                  TextField(
-                    controller: cpfController,
-                    decoration: InputDecoration(
-                      labelText: 'CPF',
-                      prefixIcon: Icon(Icons.badge, color: Colors.orange),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                  // Header com gradiente
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.orange.shade400,
+                          Colors.orange.shade600,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.orange),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
                       ),
-                      filled: true,
-                      fillColor: Colors.orange.withOpacity(0.04),
                     ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 14),
-                  TextField(
-                    controller: ruaController,
-                    decoration: InputDecoration(
-                      labelText: 'Rua',
-                      prefixIcon: Icon(Icons.streetview, color: Colors.orange),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.orange),
-                      ),
-                      filled: true,
-                      fillColor: Colors.orange.withOpacity(0.04),
-                    ),
-                  ),
-                  SizedBox(height: 14),
-                  TextField(
-                    controller: numeroController,
-                    decoration: InputDecoration(
-                      labelText: 'Número',
-                      prefixIcon: Icon(Icons.home, color: Colors.orange),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.orange),
-                      ),
-                      filled: true,
-                      fillColor: Colors.orange.withOpacity(0.04),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 14),
-                  TextField(
-                    controller: bairroController,
-                    decoration: InputDecoration(
-                      labelText: 'Bairro',
-                      prefixIcon: Icon(
-                        Icons.location_city,
-                        color: Colors.orange,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.orange),
-                      ),
-                      filled: true,
-                      fillColor: Colors.orange.withOpacity(0.04),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(
+                            Icons.location_on_rounded,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          'Endereço de Entrega',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Preencha os dados para entrega',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.9),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: 14),
-                  TextField(
-                    controller: cidadeController,
-                    decoration: InputDecoration(
-                      labelText: 'Cidade',
-                      prefixIcon: Icon(Icons.map, color: Colors.orange),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+
+                  // Formulário
+                  Padding(
+                    padding: EdgeInsets.all(24),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _buildTextField(
+                            controller: cpfController,
+                            label: 'CPF',
+                            icon: Icons.person_outline_rounded,
+                            keyboardType: TextInputType.number,
+                            hint: '000.000.000-00',
+                          ),
+                          SizedBox(height: 16),
+
+                          _buildTextField(
+                            controller: ruaController,
+                            label: 'Rua',
+                            icon: Icons.streetview_rounded,
+                            hint: 'Nome da rua',
+                          ),
+                          SizedBox(height: 16),
+
+                          Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: _buildTextField(
+                                  controller: numeroController,
+                                  label: 'Número',
+                                  icon: Icons.home_outlined,
+                                  keyboardType: TextInputType.number,
+                                  hint: '123',
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                flex: 3,
+                                child: _buildTextField(
+                                  controller: bairroController,
+                                  label: 'Bairro',
+                                  icon: Icons.location_city_outlined,
+                                  hint: 'Nome do bairro',
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16),
+
+                          _buildTextField(
+                            controller: cidadeController,
+                            label: 'Cidade',
+                            icon: Icons.map_outlined,
+                            hint: 'Nome da cidade',
+                          ),
+                        ],
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.orange),
-                      ),
-                      filled: true,
-                      fillColor: Colors.orange.withOpacity(0.04),
+                    ),
+                  ),
+
+                  // Botões de ação
+                  Container(
+                    padding: EdgeInsets.fromLTRB(24, 0, 24, 24),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(color: Colors.grey.shade300),
+                              ),
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'Cancelar',
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                              foregroundColor: Colors.white,
+                              elevation: 2,
+                              shadowColor: Colors.orange.withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            icon: Icon(Icons.save_rounded, size: 20),
+                            label: Text(
+                              'Salvar Endereço',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            onPressed: () async {
+                              // Validação básica
+                              if (_validarCampos(
+                                cpfController,
+                                ruaController,
+                                numeroController,
+                                bairroController,
+                                cidadeController,
+                              )) {
+                                await _salvarEndereco({
+                                  'cpf': cpfController.text.trim(),
+                                  'rua': ruaController.text.trim(),
+                                  'numero': numeroController.text.trim(),
+                                  'bairro': bairroController.text.trim(),
+                                  'cidade': cidadeController.text.trim(),
+                                });
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            actionsPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('Cancelar'),
-              ),
-              ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                ),
-                icon: Icon(Icons.save),
-                label: Text(
-                  'Salvar',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                onPressed: () async {
-                  await _salvarEndereco({
-                    'cpf': cpfController.text,
-                    'rua': ruaController.text,
-                    'numero': numeroController.text,
-                    'bairro': bairroController.text,
-                    'cidade': cidadeController.text,
-                  });
-                  Navigator.pop(context);
-                },
-              ),
-            ],
           ),
     );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType? keyboardType,
+    String? hint,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 8,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hint,
+          prefixIcon: Container(
+            margin: EdgeInsets.all(12),
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.orange.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: Colors.orange.shade600, size: 20),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.orange, width: 2),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: Colors.red.shade400, width: 2),
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          labelStyle: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+        ),
+      ),
+    );
+  }
+
+  bool _validarCampos(
+    TextEditingController cpf,
+    TextEditingController rua,
+    TextEditingController numero,
+    TextEditingController bairro,
+    TextEditingController cidade,
+  ) {
+    if (cpf.text.trim().isEmpty ||
+        rua.text.trim().isEmpty ||
+        numero.text.trim().isEmpty ||
+        bairro.text.trim().isEmpty ||
+        cidade.text.trim().isEmpty) {
+      // Mostrar snackbar de erro
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.warning_rounded, color: Colors.white),
+              SizedBox(width: 12),
+              Text('Por favor, preencha todos os campos'),
+            ],
+          ),
+          backgroundColor: Colors.red.shade400,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          margin: EdgeInsets.all(16),
+        ),
+      );
+      return false;
+    }
+    return true;
   }
 
   @override
@@ -433,8 +578,7 @@ class _HomePage2State extends State<HomePage2> {
       'avaliacao': 4.8,
     },
     {
-      'nome':
-          '',
+      'nome': '',
       'preco': 130.00,
       'imagem':
           'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
@@ -456,7 +600,6 @@ class _HomePage2State extends State<HomePage2> {
           'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
       'avaliacao': 4.8,
     },
-
   ];
 
   bool mostrarFavoritos = false;
