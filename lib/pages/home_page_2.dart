@@ -8,6 +8,7 @@ import 'package:projeto_pi_flutter/pages/carrinho_page.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
 import 'package:projeto_pi_flutter/pages/pedidos.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class HomePage2 extends StatefulWidget {
   const HomePage2({super.key});
@@ -35,6 +36,18 @@ class _HomePage2State extends State<HomePage2> {
         carrinho = List<Map<String, dynamic>>.from(jsonDecode(carrinhoJson));
       });
     }
+  }
+
+  Future<void> _salvarFavoritos() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('favoritos', favoritos);
+  }
+
+  Future<void> _carregarFavoritos() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      favoritos = prefs.getStringList('favoritos') ?? [];
+    });
   }
 
   Future<void> _carregarEndereco() async {
@@ -244,6 +257,7 @@ class _HomePage2State extends State<HomePage2> {
     super.initState();
     _carregarCarrinho();
     _carregarEndereco();
+    _carregarFavoritos(); // Carrega favoritos ao iniciar
   }
 
   List<Map<String, dynamic>> carrinho = [];
@@ -251,6 +265,12 @@ class _HomePage2State extends State<HomePage2> {
   final TextEditingController _searchController = TextEditingController();
 
   String searchText = '';
+
+  // Variáveis de filtro:
+  String _ordenacaoSelecionada = 'Relevância';
+  double _precoMin = 0;
+  double _precoMax = 200;
+  double _avaliacaoMin = 0;
 
   final List<Map<String, dynamic>> produtos = [
     {
@@ -414,13 +434,234 @@ class _HomePage2State extends State<HomePage2> {
     },
   ];
 
+  bool mostrarFavoritos = false;
+
+  // Função para abrir o filtro estilizado:
+  void _abrirFiltros() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 24,
+                right: 24,
+                top: 24,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.orange[200],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Filtrar Produtos',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.orange[800],
+                    ),
+                  ),
+                  SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Icon(Icons.sort, color: Colors.orange),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: _ordenacaoSelecionada,
+                          decoration: InputDecoration(
+                            labelText: 'Ordenar por',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          items:
+                              [
+                                    'Relevância',
+                                    'Menor preço',
+                                    'Maior preço',
+                                    'Melhor avaliação',
+                                  ]
+                                  .map(
+                                    (e) => DropdownMenuItem(
+                                      value: e,
+                                      child: Text(e),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (value) {
+                            setModalState(() => _ordenacaoSelecionada = value!);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Icon(Icons.attach_money, color: Colors.orange),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Faixa de preço',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            RangeSlider(
+                              values: RangeValues(_precoMin, _precoMax),
+                              min: 0,
+                              max: 200,
+                              divisions: 20,
+                              labels: RangeLabels(
+                                'R\$ ${_precoMin.toStringAsFixed(0)}',
+                                'R\$ ${_precoMax.toStringAsFixed(0)}',
+                              ),
+                              activeColor: Colors.orange,
+                              onChanged: (values) {
+                                setModalState(() {
+                                  _precoMin = values.start;
+                                  _precoMax = values.end;
+                                });
+                              },
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('R\$ ${_precoMin.toStringAsFixed(0)}'),
+                                Text('R\$ ${_precoMax.toStringAsFixed(0)}'),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.orange),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Avaliação mínima',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            RatingBar.builder(
+                              initialRating: _avaliacaoMin,
+                              minRating: 0,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 32,
+                              unratedColor: Colors.grey[300],
+                              itemPadding: EdgeInsets.symmetric(
+                                horizontal: 2.0,
+                              ),
+                              itemBuilder:
+                                  (context, _) =>
+                                      Icon(Icons.star, color: Colors.amber),
+                              onRatingUpdate: (rating) {
+                                setModalState(() => _avaliacaoMin = rating);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 28),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () {
+                            setModalState(() {
+                              _ordenacaoSelecionada = 'Relevância';
+                              _precoMin = 0;
+                              _precoMax = 200;
+                              _avaliacaoMin = 0;
+                            });
+                          },
+                          child: Text('Limpar'),
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {}); // Atualiza a tela principal
+                            Navigator.pop(context);
+                          },
+                          child: Text('Aplicar'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> produtosFiltrados =
+    // Filtro dos produtos
+    List<Map<String, dynamic>> produtosFiltrados =
         produtos.where((produto) {
           final nome = produto['nome'].toString().toLowerCase();
-          return nome.contains(searchText.toLowerCase());
+          final preco = produto['preco'] as double;
+          final avaliacao = produto['avaliacao'] as double;
+          if (!nome.contains(searchText.toLowerCase())) return false;
+          if (preco < _precoMin || preco > _precoMax) return false;
+          if (avaliacao < _avaliacaoMin) return false;
+          if (mostrarFavoritos! && !favoritos.contains(produto['nome']))
+            return false;
+          return true;
         }).toList();
+
+    // Ordenação
+    if (_ordenacaoSelecionada == 'Menor preço') {
+      produtosFiltrados.sort(
+        (a, b) => (a['preco'] as double).compareTo(b['preco'] as double),
+      );
+    } else if (_ordenacaoSelecionada == 'Maior preço') {
+      produtosFiltrados.sort(
+        (a, b) => (b['preco'] as double).compareTo(a['preco'] as double),
+      );
+    } else if (_ordenacaoSelecionada == 'Melhor avaliação') {
+      produtosFiltrados.sort(
+        (a, b) =>
+            (b['avaliacao'] as double).compareTo(a['avaliacao'] as double),
+      );
+    }
 
     return Scaffold(
       drawer: Drawer(
@@ -431,13 +672,7 @@ class _HomePage2State extends State<HomePage2> {
             SizedBox(height: 20),
             Icon(Icons.account_circle, color: Colors.white, size: 100),
             SizedBox(height: 20),
-            ListTile(
-              leading: Icon(Icons.add_box, color: Colors.orange),
-              title: Text('Cadastrar Produto', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.pushNamed(context, '/admin/add-produto');
-              },
-            ),
+
             ListTile(
               leading: Icon(Icons.home, color: Colors.white),
               title: Text('Home', style: TextStyle(color: Colors.white)),
@@ -677,6 +912,11 @@ class _HomePage2State extends State<HomePage2> {
         actions: [
           Row(
             children: [
+              IconButton(
+                icon: Icon(Icons.filter_list),
+                tooltip: 'Filtros',
+                onPressed: _abrirFiltros,
+              ),
               SizedBox(width: 10),
               IconButton(
                 tooltip: 'Carrinho',
@@ -733,6 +973,21 @@ class _HomePage2State extends State<HomePage2> {
                 tooltip: 'Endereço de Entrega',
                 onPressed: _mostrarDialogEndereco,
                 icon: Icon(FontAwesomeIcons.locationDot),
+              ),
+              SizedBox(width: 10),
+              IconButton(
+                icon: Icon(
+                  (mostrarFavoritos ?? false)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  color: Colors.red,
+                ),
+                tooltip: 'Mostrar Favoritos',
+                onPressed: () {
+                  setState(() {
+                    mostrarFavoritos = !mostrarFavoritos;
+                  });
+                },
               ),
               SizedBox(width: 10),
               PopupMenuButton<String>(
@@ -843,6 +1098,33 @@ class _HomePage2State extends State<HomePage2> {
                                   size: 80,
                                   color: Colors.grey,
                                 ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                final nome = produto['nome'];
+                                if (favoritos.contains(nome)) {
+                                  favoritos.remove(nome);
+                                } else {
+                                  favoritos.add(nome);
+                                }
+                                _salvarFavoritos();
+                              });
+                            },
+                            child: Icon(
+                              favoritos.contains(produto['nome'])
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color:
+                                  favoritos.contains(produto['nome'])
+                                      ? Colors.red
+                                      : Colors.grey[400],
+                              size: 28,
+                            ),
                           ),
                         ),
                       ],
