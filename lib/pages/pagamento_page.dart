@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:projeto_pi_flutter/data/repositories/pedidos_repository.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class PagamentoPage extends StatefulWidget {
   final Map<String, dynamic>? pedido;
@@ -64,22 +65,17 @@ class _PagamentoPageState extends State<PagamentoPage>
       duration: Duration(milliseconds: 600),
       vsync: this,
     );
-    
+
     _slideAnimation = Tween<Offset>(
       begin: Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.easeOutCubic,
-    ));
+    ).animate(
+      CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
+    );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeInOut,
-    ));
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
 
     _slideController.forward();
     _fadeController.forward();
@@ -96,11 +92,10 @@ class _PagamentoPageState extends State<PagamentoPage>
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => Center(
-        child: CircularProgressIndicator(
-          color: Color(0xFFFF6B35),
-        ),
-      ),
+      builder:
+          (_) => Center(
+            child: CircularProgressIndicator(color: Color(0xFFFF6B35)),
+          ),
     );
   }
 
@@ -114,10 +109,7 @@ class _PagamentoPageState extends State<PagamentoPage>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Colors.white,
-            Color(0xFFF8F9FA),
-          ],
+          colors: [Colors.white, Color(0xFFF8F9FA)],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -190,19 +182,20 @@ class _PagamentoPageState extends State<PagamentoPage>
                           width: 70,
                           height: 70,
                           fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => Container(
-                            width: 70,
-                            height: 70,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFFF6B35).withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              Icons.image_outlined,
-                              color: Color(0xFFFF6B35),
-                              size: 30,
-                            ),
-                          ),
+                          errorBuilder:
+                              (_, __, ___) => Container(
+                                width: 70,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFF6B35).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(
+                                  Icons.image_outlined,
+                                  color: Color(0xFFFF6B35),
+                                  size: 30,
+                                ),
+                              ),
                         ),
                       ),
                     ),
@@ -312,18 +305,19 @@ class _PagamentoPageState extends State<PagamentoPage>
 
   Widget _buildMetodoPagamento(Map<String, dynamic> metodo, int index) {
     final isSelected = metodoSelecionado == metodo['nome'];
-    
+
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       margin: EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        gradient: isSelected 
-          ? LinearGradient(
-              colors: metodo['corGradiente'],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            )
-          : null,
+        gradient:
+            isSelected
+                ? LinearGradient(
+                  colors: metodo['corGradiente'],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+                : null,
         color: isSelected ? null : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
@@ -332,9 +326,10 @@ class _PagamentoPageState extends State<PagamentoPage>
         ),
         boxShadow: [
           BoxShadow(
-            color: isSelected 
-              ? metodo['cor'].withOpacity(0.3)
-              : Colors.black.withOpacity(0.05),
+            color:
+                isSelected
+                    ? metodo['cor'].withOpacity(0.3)
+                    : Colors.black.withOpacity(0.05),
             blurRadius: isSelected ? 15 : 8,
             offset: Offset(0, isSelected ? 8 : 3),
           ),
@@ -357,9 +352,10 @@ class _PagamentoPageState extends State<PagamentoPage>
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: isSelected 
-                      ? Colors.white.withOpacity(0.2)
-                      : metodo['cor'].withOpacity(0.1),
+                    color:
+                        isSelected
+                            ? Colors.white.withOpacity(0.2)
+                            : metodo['cor'].withOpacity(0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -385,9 +381,10 @@ class _PagamentoPageState extends State<PagamentoPage>
                       Text(
                         metodo['descricao'],
                         style: TextStyle(
-                          color: isSelected 
-                            ? Colors.white.withOpacity(0.9)
-                            : Colors.grey[600],
+                          color:
+                              isSelected
+                                  ? Colors.white.withOpacity(0.9)
+                                  : Colors.grey[600],
                           fontSize: 14,
                         ),
                       ),
@@ -403,11 +400,7 @@ class _PagamentoPageState extends State<PagamentoPage>
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      Icons.check,
-                      color: metodo['cor'],
-                      size: 18,
-                    ),
+                    child: Icon(Icons.check, color: metodo['cor'], size: 18),
                   ),
                 ),
               ],
@@ -421,31 +414,34 @@ class _PagamentoPageState extends State<PagamentoPage>
   Future<bool?> _showRemoveConfirmation() {
     return showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            Icon(Icons.warning_amber_rounded, color: Colors.orange),
-            SizedBox(width: 8),
-            Text('Confirmar remoção'),
-          ],
-        ),
-        content: Text('Deseja remover este produto do carrinho?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('Cancelar'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
+      builder:
+          (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('Remover'),
+            title: Row(
+              children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.orange),
+                SizedBox(width: 8),
+                Text('Confirmar remoção'),
+              ],
+            ),
+            content: Text('Deseja remover este produto do carrinho?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text('Cancelar'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: () => Navigator.pop(context, true),
+                child: Text('Remover'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 
@@ -570,129 +566,359 @@ class _PagamentoPageState extends State<PagamentoPage>
                         color: Colors.white,
                       ),
                     ),
-                    onPressed: _loading ? null : () async {
-                      setState(() => _loading = true);
-                      _mostrarLoading();
+                    onPressed:
+                        _loading
+                            ? null
+                            : () async {
+                              setState(() => _loading = true);
+                              _mostrarLoading();
 
-                      await Future.delayed(Duration(seconds: 2));
+                              await Future.delayed(Duration(seconds: 2));
 
-                      _esconderLoading();
-                      setState(() => _loading = false);
+                              _esconderLoading();
+                              setState(() => _loading = false);
 
-                      if (metodoSelecionado == 'Pix') {
-                        final _formKey = GlobalKey<FormState>();
-                        String nome = '';
-                        String cpf = '';
-                        String email = '';
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 20,
-                            ),
-                            title: Column(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.pix,
-                                  color: Colors.teal,
-                                  size: 48,
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Dados para Pagamento Pix',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            content: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'Nome completo (igual CPF)',
-                                    ),
-                                    validator: (value) =>
-                                        value == null || value.isEmpty
-                                            ? 'Informe o nome'
-                                            : null,
-                                    onChanged: (value) => nome = value,
-                                  ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'CPF',
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 11,
-                                    validator: (value) =>
-                                        value == null || value.length != 11
-                                            ? 'CPF inválido'
-                                            : null,
-                                    onChanged: (value) => cpf = value,
-                                  ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'E-mail',
-                                    ),
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) =>
-                                        value == null || !value.contains('@')
-                                            ? 'E-mail inválido'
-                                            : null,
-                                    onChanged: (value) => email = value,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actionsAlignment: MainAxisAlignment.center,
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  'Cancelar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.teal,
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    Navigator.pop(context);
-                                    // Salva o pedido com os dados do usuário
-                                    PedidosRepository().adicionarPedido({
-                                      'id': DateTime.now().millisecondsSinceEpoch,
-                                      'data': DateTime.now()
-                                          .toString()
-                                          .substring(0, 10),
-                                      'total': total,
-                                      'produtos': List.from(produtos),
-                                      'nome': nome,
-                                      'cpf': cpf,
-                                      'email': email,
-                                      'pagamento': 'Pix',
-                                    });
-                                    final chavePix =
-                                        '123e4567-pix-chave-exemplo@banco.com';
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
+                              if (metodoSelecionado == 'Pix') {
+                                final _formKey = GlobalKey<FormState>();
+                                String nome = '';
+                                String cpf = '';
+                                String email = '';
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => AlertDialog(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 20,
+                                        ),
+                                        title: Column(
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.pix,
+                                              color: Colors.teal,
+                                              size: 48,
+                                            ),
+                                            SizedBox(height: 8),
+                                            Text(
+                                              'Dados para Pagamento Pix',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                        content: Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText:
+                                                      'Nome completo (igual CPF)',
+                                                ),
+                                                validator:
+                                                    (value) =>
+                                                        value == null ||
+                                                                value.isEmpty
+                                                            ? 'Informe o nome'
+                                                            : null,
+                                                onChanged:
+                                                    (value) => nome = value,
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'CPF',
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 11,
+                                                validator:
+                                                    (value) =>
+                                                        value == null ||
+                                                                value.length !=
+                                                                    11
+                                                            ? 'CPF inválido'
+                                                            : null,
+                                                onChanged:
+                                                    (value) => cpf = value,
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'E-mail',
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                validator:
+                                                    (value) =>
+                                                        value == null ||
+                                                                !value.contains(
+                                                                  '@',
+                                                                )
+                                                            ? 'E-mail inválido'
+                                                            : null,
+                                                onChanged:
+                                                    (value) => email = value,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
+                                        actions: [
+                                          TextButton(
+                                            onPressed:
+                                                () => Navigator.pop(context),
+                                            child: Text(
+                                              'Cancelar',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.teal,
+                                              foregroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                Navigator.pop(context);
+                                                PedidosRepository()
+                                                    .adicionarPedido({
+                                                      'id':
+                                                          DateTime.now()
+                                                              .millisecondsSinceEpoch,
+                                                      'data': DateTime.now()
+                                                          .toString()
+                                                          .substring(0, 10),
+                                                      'total': total,
+                                                      'produtos': List.from(
+                                                        produtos,
+                                                      ),
+                                                      'nome': nome,
+                                                      'cpf': cpf,
+                                                      'email': email,
+                                                      'pagamento': 'Pix',
+                                                    });
+                                                final chavePix =
+                                                    '123e4567-pix-chave-exemplo@banco.com';
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (context) => AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                20,
+                                                              ),
+                                                        ),
+                                                        contentPadding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 24,
+                                                              vertical: 20,
+                                                            ),
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Icon(
+                                                              FontAwesomeIcons
+                                                                  .pix,
+                                                              color:
+                                                                  Colors.teal,
+                                                              size: 60,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 12,
+                                                            ),
+                                                            Text(
+                                                              'Pagamento via Pix',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20,
+                                                                color:
+                                                                    Colors
+                                                                        .green[800],
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            Divider(height: 28),
+                                                            Text(
+                                                              'Use a chave Pix abaixo para efetuar o pagamento:',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 12,
+                                                            ),
+                                                            SelectableText(
+                                                              chavePix,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color:
+                                                                    Colors
+                                                                        .green[900],
+                                                                fontSize: 18,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 16,
+                                                            ),
+                                                            ElevatedButton.icon(
+                                                              icon: Icon(
+                                                                Icons.copy,
+                                                              ),
+                                                              label: Text(
+                                                                'Copiar chave Pix',
+                                                              ),
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .green,
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                        10,
+                                                                      ),
+                                                                ),
+                                                                padding:
+                                                                    EdgeInsets.symmetric(
+                                                                      horizontal:
+                                                                          16,
+                                                                      vertical:
+                                                                          12,
+                                                                    ),
+                                                              ),
+                                                              onPressed: () {
+                                                                Clipboard.setData(
+                                                                  ClipboardData(
+                                                                    text:
+                                                                        chavePix,
+                                                                  ),
+                                                                );
+                                                                Navigator.pop(
+                                                                  context,
+                                                                );
+                                                                ScaffoldMessenger.of(
+                                                                  context,
+                                                                ).showSnackBar(
+                                                                  SnackBar(
+                                                                    content: Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .check,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width:
+                                                                              8,
+                                                                        ),
+                                                                        Text(
+                                                                          'Chave Pix copiada!',
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .green[700],
+                                                                    duration:
+                                                                        Duration(
+                                                                          seconds:
+                                                                              2,
+                                                                        ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        actionsAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                context,
+                                                              ); // Fecha o dialog
+                                                              Navigator.pop(
+                                                                context,
+                                                              ); // Volta para tela anterior
+                                                            },
+                                                            child: Text(
+                                                              'Fechar',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              'Continuar',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                );
+                              } else if (metodoSelecionado ==
+                                  'Boleto Bancário') {
+                                PedidosRepository().adicionarPedido({
+                                  'id': DateTime.now().millisecondsSinceEpoch,
+                                  'data': DateTime.now().toString().substring(
+                                    0,
+                                    10,
+                                  ),
+                                  'total': total,
+                                  'produtos': List.from(produtos),
+                                });
+                                final linhaDigitavel =
+                                    '23793.38128 60007.135308 04000.123456 1 81230000010000';
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
                                         ),
                                         contentPadding: EdgeInsets.symmetric(
                                           horizontal: 24,
@@ -702,34 +928,32 @@ class _PagamentoPageState extends State<PagamentoPage>
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Icon(
-                                              FontAwesomeIcons.pix,
-                                              color: Colors.teal,
+                                              FontAwesomeIcons.receipt,
+                                              color: Colors.orange,
                                               size: 60,
                                             ),
                                             SizedBox(height: 12),
                                             Text(
-                                              'Pagamento via Pix',
+                                              'Pagamento via Boleto',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20,
-                                                color: Colors.green[800],
+                                                color: Colors.orange[800],
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
                                             Divider(height: 28),
                                             Text(
-                                              'Use a chave Pix abaixo para efetuar o pagamento:',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
+                                              'Use o código abaixo para pagar seu boleto:',
+                                              style: TextStyle(fontSize: 16),
                                               textAlign: TextAlign.center,
                                             ),
                                             SizedBox(height: 12),
                                             SelectableText(
-                                              chavePix,
+                                              linhaDigitavel,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.green[900],
+                                                color: Colors.orange[900],
                                                 fontSize: 18,
                                               ),
                                               textAlign: TextAlign.center,
@@ -737,11 +961,9 @@ class _PagamentoPageState extends State<PagamentoPage>
                                             SizedBox(height: 16),
                                             ElevatedButton.icon(
                                               icon: Icon(Icons.copy),
-                                              label: Text(
-                                                'Copiar chave Pix',
-                                              ),
+                                              label: Text('Copiar código'),
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.green,
+                                                backgroundColor: Colors.orange,
                                                 foregroundColor: Colors.white,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
@@ -754,36 +976,46 @@ class _PagamentoPageState extends State<PagamentoPage>
                                               ),
                                               onPressed: () {
                                                 Clipboard.setData(
-                                                  ClipboardData(text: chavePix),
+                                                  ClipboardData(
+                                                    text: linhaDigitavel,
+                                                  ),
                                                 );
                                                 Navigator.pop(context);
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
                                                   SnackBar(
                                                     content: Row(
                                                       children: [
                                                         Icon(Icons.check),
                                                         SizedBox(width: 8),
                                                         Text(
-                                                          'Chave Pix copiada!',
+                                                          'Código do boleto copiado!',
                                                         ),
                                                       ],
                                                     ),
                                                     backgroundColor:
-                                                        Colors.green[700],
-                                                    duration: Duration(seconds: 2),
+                                                        Colors.orange[700],
+                                                    duration: Duration(
+                                                      seconds: 2,
+                                                    ),
                                                   ),
                                                 );
                                               },
                                             ),
                                           ],
                                         ),
-                                        actionsAlignment: MainAxisAlignment.center,
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.pop(context); // Fecha o dialog
-                                              Navigator.pop(context); // Volta para tela anterior
+                                              Navigator.pop(
+                                                context,
+                                              ); // Fecha o dialog
+                                              Navigator.pop(
+                                                context,
+                                              ); // Volta para tela anterior
                                             },
                                             child: Text(
                                               'Fechar',
@@ -794,247 +1026,272 @@ class _PagamentoPageState extends State<PagamentoPage>
                                           ),
                                         ],
                                       ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  'Continuar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else if (metodoSelecionado == 'Boleto Bancário') {
-                        PedidosRepository().adicionarPedido({
-                          'id': DateTime.now().millisecondsSinceEpoch,
-                          'data': DateTime.now().toString().substring(0, 10),
-                          'total': total,
-                          'produtos': List.from(produtos),
-                        });
-                        final linhaDigitavel =
-                            '23793.38128 60007.135308 04000.123456 1 81230000010000';
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 20,
-                            ),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.receipt,
-                                  color: Colors.orange,
-                                  size: 60,
-                                ),
-                                SizedBox(height: 12),
-                                Text(
-                                  'Pagamento via Boleto',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.orange[800],
+                                );
+                              } else if (metodoSelecionado ==
+                                  'Cartão de Crédito') {
+                                PedidosRepository().adicionarPedido({
+                                  'id': DateTime.now().millisecondsSinceEpoch,
+                                  'data': DateTime.now().toString().substring(
+                                    0,
+                                    10,
                                   ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Divider(height: 28),
-                                Text(
-                                  'Use o código abaixo para pagar seu boleto:',
-                                  style: TextStyle(fontSize: 16),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 12),
-                                SelectableText(
-                                  linhaDigitavel,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.orange[900],
-                                    fontSize: 18,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(height: 16),
-                                ElevatedButton.icon(
-                                  icon: Icon(Icons.copy),
-                                  label: Text('Copiar código'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.orange,
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Clipboard.setData(
-                                      ClipboardData(text: linhaDigitavel),
-                                    );
-                                    Navigator.pop(context);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Row(
-                                          children: [
-                                            Icon(Icons.check),
-                                            SizedBox(width: 8),
-                                            Text('Código do boleto copiado!'),
-                                          ],
-                                        ),
-                                        backgroundColor: Colors.orange[700],
-                                        duration: Duration(seconds: 2),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                            actionsAlignment: MainAxisAlignment.center,
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context); // Fecha o dialog
-                                  Navigator.pop(context); // Volta para tela anterior
-                                },
-                                child: Text(
-                                  'Fechar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else if (metodoSelecionado == 'Cartão de Crédito') {
-                        PedidosRepository().adicionarPedido({
-                          'id': DateTime.now().millisecondsSinceEpoch,
-                          'data': DateTime.now().toString().substring(0, 10),
-                          'total': total,
-                          'produtos': List.from(produtos),
-                        });
-                        final _formKey = GlobalKey<FormState>();
-                        String nome = '';
-                        String numero = '';
-                        String validade = '';
-                        String cvv = '';
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 20,
-                            ),
-                            content: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Lottie.network(
-                                    'https://lottie.host/da68062b-106c-4eb1-b6e6-79ff1a4e5f83/43JC4FTMoZ.json',
-                                    width: 130,
-                                    height: 130,
-                                  ),
-                                  SizedBox(height: 12),
-                                  Text(
-                                    'Dados do Cartão',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      color: Colors.blue[800],
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Divider(height: 28),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'Nome no cartão',
-                                    ),
-                                    validator: (value) =>
-                                        value == null || value.isEmpty
-                                            ? 'Informe o nome'
-                                            : null,
-                                    onChanged: (value) => nome = value,
-                                  ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'Número do cartão',
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 16,
-                                    validator: (value) =>
-                                        value == null || value.length != 16
-                                            ? 'Número inválido'
-                                            : null,
-                                    onChanged: (value) => numero = value,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            labelText: 'Validade (MM/AA)',
-                                          ),
-                                          maxLength: 5,
-                                          validator: (value) =>
-                                              value == null || value.length != 5
-                                                  ? 'Inválido'
-                                                  : null,
-                                          onChanged: (value) => validade = value,
-                                        ),
-                                      ),
-                                      SizedBox(width: 8),
-                                      Expanded(
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            labelText: 'CVV',
-                                          ),
-                                          maxLength: 3,
-                                          obscureText: true,
-                                          validator: (value) =>
-                                              value == null || value.length != 3
-                                                  ? 'Inválido'
-                                                  : null,
-                                          onChanged: (value) => cvv = value,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actionsAlignment: MainAxisAlignment.center,
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  'Cancelar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    Navigator.pop(context);
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
+                                  'total': total,
+                                  'produtos': List.from(produtos),
+                                });
+                                final _formKey = GlobalKey<FormState>();
+                                String nome = '';
+                                String numero = '';
+                                String validade = '';
+                                String cvv = '';
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => AlertDialog(
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 20,
+                                        ),
+                                        content: Form(
+                                          key: _formKey,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Lottie.network(
+                                                'https://lottie.host/da68062b-106c-4eb1-b6e6-79ff1a4e5f83/43JC4FTMoZ.json',
+                                                width: 130,
+                                                height: 130,
+                                              ),
+                                              SizedBox(height: 12),
+                                              Text(
+                                                'Dados do Cartão',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                  color: Colors.blue[800],
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              Divider(height: 28),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'Nome no cartão',
+                                                ),
+                                                validator:
+                                                    (value) =>
+                                                        value == null ||
+                                                                value.isEmpty
+                                                            ? 'Informe o nome'
+                                                            : null,
+                                                onChanged:
+                                                    (value) => nome = value,
+                                              ),
+                                              TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'Número do cartão',
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                maxLength: 16,
+                                                validator:
+                                                    (value) =>
+                                                        value == null ||
+                                                                value.length !=
+                                                                    16
+                                                            ? 'Número inválido'
+                                                            : null,
+                                                onChanged:
+                                                    (value) => numero = value,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFormField(
+                                                      decoration: InputDecoration(
+                                                        labelText:
+                                                            'Validade (MM/AA)',
+                                                      ),
+                                                      maxLength: 5,
+                                                      validator:
+                                                          (value) =>
+                                                              value == null ||
+                                                                      value.length !=
+                                                                          5
+                                                                  ? 'Inválido'
+                                                                  : null,
+                                                      onChanged:
+                                                          (value) =>
+                                                              validade = value,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 8),
+                                                  Expanded(
+                                                    child: TextFormField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                            labelText: 'CVV',
+                                                          ),
+                                                      maxLength: 3,
+                                                      obscureText: true,
+                                                      validator:
+                                                          (value) =>
+                                                              value == null ||
+                                                                      value.length !=
+                                                                          3
+                                                                  ? 'Inválido'
+                                                                  : null,
+                                                      onChanged:
+                                                          (value) =>
+                                                              cvv = value,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
+                                        actions: [
+                                          TextButton(
+                                            onPressed:
+                                                () => Navigator.pop(context),
+                                            child: Text(
+                                              'Cancelar',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.blue,
+                                              foregroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                Navigator.pop(context);
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (context) => AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                20,
+                                                              ),
+                                                        ),
+                                                        contentPadding:
+                                                            EdgeInsets.symmetric(
+                                                              horizontal: 24,
+                                                              vertical: 20,
+                                                            ),
+                                                        content: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            Icon(
+                                                              FontAwesomeIcons
+                                                                  .creditCard,
+                                                              color:
+                                                                  Colors.green,
+                                                              size: 60,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 12,
+                                                            ),
+                                                            Text(
+                                                              'Pagamento Realizado',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 20,
+                                                                color:
+                                                                    Colors
+                                                                        .green[800],
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            Divider(height: 28),
+                                                            Text(
+                                                              'Pagamento com cartão realizado com sucesso!\nObrigado por comprar conosco!',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        actionsAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                context,
+                                                              ); // Fecha o dialog
+                                                              Navigator.pop(
+                                                                context,
+                                                              ); // Volta para tela anterior
+                                                            },
+                                                            child: Text(
+                                                              'Fechar',
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                );
+                                              }
+                                            },
+                                            child: Text(
+                                              'Finalizar',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                );
+                              } else if (metodoSelecionado ==
+                                  'Dinheiro na Entrega') {
+                                PedidosRepository().adicionarPedido({
+                                  'id': DateTime.now().millisecondsSinceEpoch,
+                                  'data': DateTime.now().toString().substring(
+                                    0,
+                                    10,
+                                  ),
+                                  'total': total,
+                                  'produtos': List.from(produtos),
+                                });
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (context) => AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
                                         ),
                                         contentPadding: EdgeInsets.symmetric(
                                           horizontal: 24,
@@ -1044,36 +1301,39 @@ class _PagamentoPageState extends State<PagamentoPage>
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Icon(
-                                              FontAwesomeIcons.creditCard,
-                                              color: Colors.green,
+                                              Icons.attach_money,
+                                              color: Colors.teal,
                                               size: 60,
                                             ),
                                             SizedBox(height: 12),
                                             Text(
-                                              'Pagamento Realizado',
+                                              'Pagamento em Dinheiro',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 20,
-                                                color: Colors.green[800],
+                                                color: Colors.teal[800],
                                               ),
                                               textAlign: TextAlign.center,
                                             ),
                                             Divider(height: 28),
                                             Text(
-                                              'Pagamento com cartão realizado com sucesso!\nObrigado por comprar conosco!',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                              ),
+                                              'Você escolheu pagar em dinheiro na entrega. Certifique-se de ter o valor exato.',
+                                              style: TextStyle(fontSize: 16),
                                               textAlign: TextAlign.center,
                                             ),
                                           ],
                                         ),
-                                        actionsAlignment: MainAxisAlignment.center,
+                                        actionsAlignment:
+                                            MainAxisAlignment.center,
                                         actions: [
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.pop(context); // Fecha o dialog
-                                              Navigator.pop(context); // Volta para tela anterior
+                                              Navigator.pop(
+                                                context,
+                                              ); // Fecha o dialog
+                                              Navigator.pop(
+                                                context,
+                                              ); // Volta para tela anterior
                                             },
                                             child: Text(
                                               'Fechar',
@@ -1084,77 +1344,9 @@ class _PagamentoPageState extends State<PagamentoPage>
                                           ),
                                         ],
                                       ),
-                                    );
-                                  }
-                                },
-                                child: Text(
-                                  'Finalizar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else if (metodoSelecionado == 'Dinheiro na Entrega') {
-                        PedidosRepository().adicionarPedido({
-                          'id': DateTime.now().millisecondsSinceEpoch,
-                          'data': DateTime.now().toString().substring(0, 10),
-                          'total': total,
-                          'produtos': List.from(produtos),
-                        });
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 20,
-                            ),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.attach_money,
-                                  color: Colors.teal,
-                                  size: 60,
-                                ),
-                                SizedBox(height: 12),
-                                Text(
-                                  'Pagamento em Dinheiro',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Colors.teal[800],
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Divider(height: 28),
-                                Text(
-                                  'Você escolheu pagar em dinheiro na entrega. Certifique-se de ter o valor exato.',
-                                  style: TextStyle(fontSize: 16),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            actionsAlignment: MainAxisAlignment.center,
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context); // Fecha o dialog
-                                  Navigator.pop(context); // Volta para tela anterior
-                                },
-                                child: Text(
-                                  'Fechar',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    },
+                                );
+                              }
+                            },
                   ),
                 ),
 
@@ -1173,7 +1365,10 @@ class _PagamentoPageState extends State<PagamentoPage>
                     ),
                     onPressed: () => Navigator.pop(context),
                     style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                     ),
                   ),
                 ),
