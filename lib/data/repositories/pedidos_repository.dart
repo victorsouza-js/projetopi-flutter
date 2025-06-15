@@ -10,4 +10,8 @@ class PedidosRepository {
   void adicionarPedido(Map<String, dynamic> pedido) {
     _pedidos.add(pedido);
   }
+
+  listarPedidos() {
+    return _pedidos;
+  }
 }

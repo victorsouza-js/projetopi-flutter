@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:projeto_pi_flutter/pages/historico_pagamento.dart';
 import 'package:projeto_pi_flutter/pages/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -833,747 +834,953 @@ class _HomePage2State extends State<HomePage2> {
 
     return Scaffold(
       drawer: Drawer(
-  backgroundColor: Colors.black,
-  child: Column(
-    children: [
-      // Header do Drawer
-      Container(
-        width: double.infinity,
-        padding: EdgeInsets.only(top: 50, bottom: 20, left: 20, right: 20),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.orange[800]!, Colors.orange[600]!],
-          ),
-        ),
+        backgroundColor: Colors.black,
         child: Column(
           children: [
+            // Header do Drawer
             Container(
-              padding: EdgeInsets.all(3),
+              width: double.infinity,
+              padding: EdgeInsets.only(
+                top: 50,
+                bottom: 20,
+                left: 20,
+                right: 20,
+              ),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-              child: CircleAvatar(
-                radius: 35,
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Icons.fitness_center,
-                  size: 35,
-                  color: Colors.orange[800],
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.orange[800]!, Colors.orange[600]!],
                 ),
-              ),
-            ),
-            SizedBox(height: 15),
-            Text(
-              'FitXpert',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'Sua jornada fitness',
-              style: TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
-              ),
-            ),
-          ],
-        ),
-      ),
-      
-      // Menu Items
-      Expanded(
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          children: [
-            // Home
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.home, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Home',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, '/home');
-                },
-              ),
-            ),
-            
-            // Configurações
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.settings, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Configurações',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-              ),
-            ),
-            
-            // Divisor
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              height: 1,
-              color: Colors.white.withOpacity(0.1),
-            ),
-            
-            // Suporte
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.contact_support, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Suporte',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'Precisa de ajuda?',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: Row(
-                        children: [
-                          Icon(Icons.contact_support, color: Colors.orange),
-                          SizedBox(width: 10),
-                          Text('Suporte', style: TextStyle(color: Colors.orange[800])),
-                        ],
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            leading: Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
-                            title: Text('WhatsApp'),
-                            subtitle: Text('(81) 9995-1743'),
-                            onTap: () {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Abrindo WhatsApp...')),
-                              );
-                            },
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.email, color: Colors.blue),
-                            title: Text('Email'),
-                            subtitle: Text('suporte@fitxpert.com'),
-                            onTap: () {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Abrindo email...')),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Fechar'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            // Feedback
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.feedback, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Feedback',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'Compartilhe sua opinião',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  TextEditingController feedbackController = TextEditingController();
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: Row(
-                        children: [
-                          Icon(Icons.feedback, color: Colors.orange),
-                          SizedBox(width: 10),
-                          Text('Seu Feedback', style: TextStyle(color: Colors.orange[800])),
-                        ],
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Conte-nos sua experiência:'),
-                          SizedBox(height: 15),
-                          TextField(
-                            controller: feedbackController,
-                            maxLines: 4,
-                            decoration: InputDecoration(
-                              hintText: 'Digite seu feedback...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Cancelar'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Obrigado pelo seu feedback!'),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                          child: Text('Enviar', style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            // Ajuda
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.help, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Ajuda',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'FAQ e tutoriais',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: Row(
-                        children: [
-                          Icon(Icons.help, color: Colors.orange),
-                          SizedBox(width: 10),
-                          Text('Central de Ajuda', style: TextStyle(color: Colors.orange[800])),
-                        ],
-                      ),
-                      content: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Como fazer um pedido?', style: TextStyle(fontWeight: FontWeight.bold)),
-                            SizedBox(height: 8),
-                            Text('1. Navegue pelos produtos\n2. Adicione ao carrinho\n3. Vá para o checkout\n4. Confirme o pedido'),
-                            SizedBox(height: 16),
-                            Text('Formas de pagamento', style: TextStyle(fontWeight: FontWeight.bold)),
-                            SizedBox(height: 8),
-                            Text('• Cartão de crédito\n• Cartão de débito\n• PIX\n• Boleto bancário'),
-                            SizedBox(height: 16),
-                            Text('Prazos de entrega', style: TextStyle(fontWeight: FontWeight.bold)),
-                            SizedBox(height: 8),
-                            Text('Região Metropolitana: 1-2 dias úteis\nInterior: 3-5 dias úteis'),
-                          ],
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Fechar'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            // Divisor
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              height: 1,
-              color: Colors.white.withOpacity(0.1),
-            ),
-            
-            // Privacidade
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.privacy_tip, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Privacidade',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'Política de privacidade',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: Row(
-                        children: [
-                          Icon(Icons.privacy_tip, color: Colors.orange),
-                          SizedBox(width: 10),
-                          Text('Privacidade', style: TextStyle(color: Colors.orange[800])),
-                        ],
-                      ),
-                      content: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Política de Privacidade',
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            SizedBox(height: 10),
-                            Text('Seus dados pessoais são protegidos e utilizados apenas para:'),
-                            SizedBox(height: 8),
-                            Text('• Processamento de pedidos\n• Comunicação sobre entregas\n• Melhorias no atendimento\n• Ofertas personalizadas (opcional)'),
-                            SizedBox(height: 10),
-                            Text(
-                              'Nunca compartilhamos seus dados com terceiros sem autorização.',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Entendi'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            // Notificações
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.notifications, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Notificações',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'Gerenciar alertas',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Configurações de notificação em desenvolvimento...')),
-                  );
-                },
-              ),
-            ),
-            
-            // Divisor
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              height: 1,
-              color: Colors.white.withOpacity(0.1),
-            ),
-            
-            // Avaliar App
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.star, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Avaliar App',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'Deixe sua avaliação',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.orange),
-                          SizedBox(width: 10),
-                          Text('Avaliar App', style: TextStyle(color: Colors.orange[800])),
-                        ],
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.favorite, color: Colors.red, size: 50),
-                          SizedBox(height: 15),
-                          Text(
-                            'Gostou do FitXpert?',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Sua avaliação nos ajuda a melhorar!',
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Mais tarde'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Redirecionando para Play Store...')),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                          child: Text('Avaliar', style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            // Sobre
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              child: ListTile(
-                leading: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(Icons.info, color: Colors.orange, size: 20),
-                ),
-                title: Text(
-                  'Sobre',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                subtitle: Text(
-                  'Conheça o FitXpert',
-                  style: TextStyle(color: Colors.white60, fontSize: 12),
-                ),
-                trailing: Icon(Icons.arrow_forward_ios, color: Colors.white30, size: 14),
-                onTap: () {
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
-                      ),
-                      title: Row(
-                        children: [
-                          Icon(Icons.info, color: Colors.orange, size: 28),
-                          SizedBox(width: 8),
-                          Text(
-                            'Sobre o FitXpert',
-                            style: TextStyle(
-                              color: Colors.orange[800],
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Divider(),
-                          Row(
-                            children: [
-                              Icon(Icons.fitness_center, color: Colors.orange),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'O FitXpert é um aplicativo criado para facilitar a compra de suplementos e produtos para quem busca saúde, bem-estar e performance.',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Icon(Icons.flag, color: Colors.orange),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Nosso objetivo é oferecer praticidade, segurança e variedade para você atingir seus objetivos de forma eficiente!',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Icon(Icons.verified, color: Colors.orange),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  '• Produtos de qualidade\n• Entrega rápida\n• Atendimento personalizado',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Icon(Icons.developer_mode, color: Colors.orange),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Desenvolvido por alunos de Análise e Desenvolvimento de Sistemas.',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[700],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('Fechar'),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            
-            SizedBox(height: 10),
-            
-            // Divisor
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              height: 1,
-              color: Colors.white.withOpacity(0.1),
-            ),
-            
-            // Endereço
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.orange.withOpacity(0.3)),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Icon(Icons.location_on, color: Colors.orange, size: 20),
-                      SizedBox(width: 8),
-                      Text(
-                        'Endereço de Entrega',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        ),
+                  Container(
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2),
+                    ),
+                    child: CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.fitness_center,
+                        size: 35,
+                        color: Colors.orange[800],
                       ),
-                    ],
+                    ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 15),
                   Text(
-                    enderecoEntrega.isEmpty
-                        ? 'Toque para cadastrar seu endereço'
-                        : '${enderecoEntrega['rua'] ?? ''}, Nº ${enderecoEntrega['numero'] ?? ''}\n${enderecoEntrega['bairro'] ?? ''} - ${enderecoEntrega['cidade'] ?? ''}',
+                    'FitXpert',
                     style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: _mostrarDialogEndereco,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        enderecoEntrega.isEmpty ? 'Cadastrar' : 'Editar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                  Text(
+                    'Sua jornada fitness',
+                    style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ],
               ),
             ),
-            
-            SizedBox(height: 20),
-            
-            // Botão Sair
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: ElevatedButton(
-                onPressed: () async {
-                  await _salvarCarrinho();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/home',
-                    (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[700],
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+
+            // Menu Items
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                children: [
+                  // Home
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.home, color: Colors.orange, size: 20),
+                      ),
+                      title: Text(
+                        'Home',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/home');
+                      },
+                    ),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.logout, size: 20),
-                    SizedBox(width: 8),
-                    Text(
-                      'Sair',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+
+                  // Configurações
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.settings,
+                          color: Colors.orange,
+                          size: 20,
+                        ),
+                      ),
+                      title: Text(
+                        'Configurações',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Divisor
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    height: 1,
+                    color: Colors.white.withOpacity(0.1),
+                  ),
+
+                  // Suporte
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.contact_support,
+                          color: Colors.orange,
+                          size: 20,
+                        ),
+                      ),
+                      title: Text(
+                        'Suporte',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'Precisa de ajuda?',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.contact_support,
+                                      color: Colors.orange,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Suporte',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ListTile(
+                                      leading: Icon(
+                                        FontAwesomeIcons.whatsapp,
+                                        color: Colors.green,
+                                      ),
+                                      title: Text('WhatsApp'),
+                                      subtitle: Text('(81) 9995-1743'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Abrindo WhatsApp...',
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Icon(
+                                        Icons.email,
+                                        color: Colors.blue,
+                                      ),
+                                      title: Text('Email'),
+                                      subtitle: Text('suporte@fitxpert.com'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Abrindo email...'),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Fechar'),
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Feedback
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.feedback,
+                          color: Colors.orange,
+                          size: 20,
+                        ),
+                      ),
+                      title: Text(
+                        'Feedback',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'Compartilhe sua opinião',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        TextEditingController feedbackController =
+                            TextEditingController();
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Icon(Icons.feedback, color: Colors.orange),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Seu Feedback',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text('Conte-nos sua experiência:'),
+                                    SizedBox(height: 15),
+                                    TextField(
+                                      controller: feedbackController,
+                                      maxLines: 4,
+                                      decoration: InputDecoration(
+                                        hintText: 'Digite seu feedback...',
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Cancelar'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Obrigado pelo seu feedback!',
+                                          ),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange,
+                                    ),
+                                    child: Text(
+                                      'Enviar',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Ajuda
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.help, color: Colors.orange, size: 20),
+                      ),
+                      title: Text(
+                        'Ajuda',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'FAQ e tutoriais',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Icon(Icons.help, color: Colors.orange),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Central de Ajuda',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Como fazer um pedido?',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        '1. Navegue pelos produtos\n2. Adicione ao carrinho\n3. Vá para o checkout\n4. Confirme o pedido',
+                                      ),
+                                      SizedBox(height: 16),
+                                      Text(
+                                        'Formas de pagamento',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        '• Cartão de crédito\n• Cartão de débito\n• PIX\n• Boleto bancário',
+                                      ),
+                                      SizedBox(height: 16),
+                                      Text(
+                                        'Prazos de entrega',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        'Região Metropolitana: 1-2 dias úteis\nInterior: 3-5 dias úteis',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Fechar'),
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Divisor
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    height: 1,
+                    color: Colors.white.withOpacity(0.1),
+                  ),
+
+                  // Privacidade
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.privacy_tip,
+                          color: Colors.orange,
+                          size: 20,
+                        ),
+                      ),
+                      title: Text(
+                        'Privacidade',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'Política de privacidade',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.privacy_tip,
+                                      color: Colors.orange,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Privacidade',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Política de Privacidade',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Seus dados pessoais são protegidos e utilizados apenas para:',
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        '• Processamento de pedidos\n• Comunicação sobre entregas\n• Melhorias no atendimento\n• Ofertas personalizadas (opcional)',
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        'Nunca compartilhamos seus dados com terceiros sem autorização.',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Entendi'),
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Notificações
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.notifications,
+                          color: Colors.orange,
+                          size: 20,
+                        ),
+                      ),
+                      title: Text(
+                        'Notificações',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'Gerenciar alertas',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Configurações de notificação em desenvolvimento...',
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Divisor
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    height: 1,
+                    color: Colors.white.withOpacity(0.1),
+                  ),
+
+                  // Avaliar App
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.star, color: Colors.orange, size: 20),
+                      ),
+                      title: Text(
+                        'Avaliar App',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'Deixe sua avaliação',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Icon(Icons.star, color: Colors.orange),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Avaliar App',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                      size: 50,
+                                    ),
+                                    SizedBox(height: 15),
+                                    Text(
+                                      'Gostou do FitXpert?',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'Sua avaliação nos ajuda a melhorar!',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Mais tarde'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Redirecionando para Play Store...',
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange,
+                                    ),
+                                    child: Text(
+                                      'Avaliar',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  // Sobre
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    child: ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(Icons.info, color: Colors.orange, size: 20),
+                      ),
+                      title: Text(
+                        'Sobre',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        'Conheça o FitXpert',
+                        style: TextStyle(color: Colors.white60, fontSize: 12),
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white30,
+                        size: 14,
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                title: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.info,
+                                      color: Colors.orange,
+                                      size: 28,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Sobre o FitXpert',
+                                      style: TextStyle(
+                                        color: Colors.orange[800],
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Divider(),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.fitness_center,
+                                          color: Colors.orange,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            'O FitXpert é um aplicativo criado para facilitar a compra de suplementos e produtos para quem busca saúde, bem-estar e performance.',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.flag, color: Colors.orange),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            'Nosso objetivo é oferecer praticidade, segurança e variedade para você atingir seus objetivos de forma eficiente!',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.verified,
+                                          color: Colors.orange,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            '• Produtos de qualidade\n• Entrega rápida\n• Atendimento personalizado',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.developer_mode,
+                                          color: Colors.orange,
+                                        ),
+                                        SizedBox(width: 8),
+                                        Expanded(
+                                          child: Text(
+                                            'Desenvolvido por alunos de Análise e Desenvolvimento de Sistemas.',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey[700],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('Fechar'),
+                                  ),
+                                ],
+                              ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+
+                  // Divisor
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    height: 1,
+                    color: Colors.white.withOpacity(0.1),
+                  ),
+
+                  // Endereço
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[900],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.orange.withOpacity(0.3)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.orange,
+                              size: 20,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Endereço de Entrega',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          enderecoEntrega.isEmpty
+                              ? 'Toque para cadastrar seu endereço'
+                              : '${enderecoEntrega['rua'] ?? ''}, Nº ${enderecoEntrega['numero'] ?? ''}\n${enderecoEntrega['bairro'] ?? ''} - ${enderecoEntrega['cidade'] ?? ''}',
+                          style: TextStyle(color: Colors.white70, fontSize: 12),
+                        ),
+                        SizedBox(height: 8),
+                        GestureDetector(
+                          onTap: _mostrarDialogEndereco,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.orange,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              enderecoEntrega.isEmpty ? 'Cadastrar' : 'Editar',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 20),
+
+                  // Botão Sair
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await _salvarCarrinho();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/home',
+                          (route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[700],
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.logout, size: 20),
+                          SizedBox(width: 8),
+                          Text(
+                            'Sair',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+
+                  SizedBox(height: 20),
+                ],
               ),
             ),
-            
-            SizedBox(height: 20),
           ],
         ),
       ),
-    ],
-  ),
-),
       appBar: AppBar(
         title: Container(
           height: 40,
@@ -1602,6 +1809,19 @@ class _HomePage2State extends State<HomePage2> {
         actions: [
           Row(
             children: [
+              IconButton(
+                icon: Icon(Icons.history, color: Color(0xFFFF6B35)),
+                tooltip: 'Histórico de Pagamentos',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HistoricoPagamentosPage(),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(width: 10),
               IconButton(
                 icon: Icon(Icons.filter_list),
                 tooltip: 'Filtros',
