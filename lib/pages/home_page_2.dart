@@ -1192,33 +1192,41 @@ class _HomePage2State extends State<HomePage2> {
         backgroundColor: Colors.orange,
       ),
       body: GridView.builder(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(20),
         itemCount: produtosFiltrados.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 0.68,
+          mainAxisSpacing: 20,
+          childAspectRatio: 0.72,
         ),
         itemBuilder: (context, index) {
           final produto = produtosFiltrados[index];
-          return Container(
+          return AnimatedContainer(
+            duration: Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(24),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.orange.withOpacity(0.08),
-                  blurRadius: 12,
-                  offset: Offset(0, 4),
+                  color: Colors.black.withOpacity(0.06),
+                  blurRadius: 20,
+                  offset: Offset(0, 8),
+                ),
+                BoxShadow(
+                  color: Colors.orange.withOpacity(0.04),
+                  blurRadius: 40,
+                  offset: Offset(0, 16),
                 ),
               ],
             ),
             child: Material(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(24),
               child: InkWell(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(24),
+                splashColor: Colors.orange.withOpacity(0.1),
+                highlightColor: Colors.orange.withOpacity(0.05),
                 onTap: () async {
                   final produtoSelecionado = await Navigator.push(
                     context,
@@ -1249,158 +1257,279 @@ class _HomePage2State extends State<HomePage2> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(18),
-                          ),
-                          child: Image.network(
-                            produto['imagem'],
-                            fit: BoxFit.contain,
-                            height: 180,
-                            width: double.infinity,
-                            errorBuilder:
-                                (context, error, stackTrace) => Icon(
-                                  Icons.image,
-                                  size: 80,
-                                  color: Colors.grey,
+                    // Container da imagem com gradiente sutil
+                    Container(
+                      height: 160,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.grey[50]!, Colors.white],
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          // Imagem do produto
+                          Positioned.fill(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(24),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Image.network(
+                                  produto['imagem'],
+                                  fit: BoxFit.contain,
+                                  errorBuilder:
+                                      (context, error, stackTrace) => Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[100],
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.image_outlined,
+                                          size: 60,
+                                          color: Colors.grey[400],
+                                        ),
+                                      ),
                                 ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                final nome = produto['nome'];
-                                if (favoritos.contains(nome)) {
-                                  favoritos.remove(nome);
-                                } else {
-                                  favoritos.add(nome);
-                                }
-                                _salvarFavoritos();
-                              });
-                            },
-                            child: Icon(
-                              favoritos.contains(produto['nome'])
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color:
-                                  favoritos.contains(produto['nome'])
-                                      ? Colors.red
-                                      : Colors.grey[400],
-                              size: 28,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        produto['nome'],
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.grey[900],
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        'R\$ ${produto['preco'].toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 19,
-                          color: Colors.orange[800],
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Spacer(),
-                    SizedBox(height: 6),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(5, (star) {
-                          double nota = produto['avaliacao'] ?? 4.6;
-                          return Icon(
-                            star < nota.floor()
-                                ? Icons.star
-                                : (star < nota
-                                    ? Icons.star_half
-                                    : Icons.star_border),
-                            color: Colors.amber,
-                            size: 18,
-                          );
-                        }),
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 8,
-                      ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange[800],
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 0,
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            final idx = carrinho.indexWhere(
-                              (item) => item['nome'] == produto['nome'],
-                            );
-                            if (idx != -1) {
-                              carrinho[idx]['quantidade'] =
-                                  (carrinho[idx]['quantidade'] ?? 1) + 1;
-                            } else {
-                              final novoProduto = Map<String, dynamic>.from(
-                                produto,
-                              );
-                              novoProduto['quantidade'] = 1;
-                              carrinho.add(novoProduto);
-                            }
-                          });
-                          _salvarCarrinho();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                '${produto['nome']} adicionado ao carrinho!',
                               ),
                             ),
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                          // Botão de favorito estilizado
+                          Positioned(
+                            top: 12,
+                            right: 12,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  final nome = produto['nome'];
+                                  if (favoritos.contains(nome)) {
+                                    favoritos.remove(nome);
+                                  } else {
+                                    favoritos.add(nome);
+                                  }
+                                  _salvarFavoritos();
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(
+                                  favoritos.contains(produto['nome'])
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color:
+                                      favoritos.contains(produto['nome'])
+                                          ? Colors.red[400]
+                                          : Colors.grey[500],
+                                  size: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Badge de desconto (opcional)
+                          if (produto.containsKey('desconto') &&
+                              produto['desconto'] > 0)
+                            Positioned(
+                              top: 12,
+                              left: 12,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.red[500],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  '-${produto['desconto']}%',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+
+                    // Conteúdo do produto
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Icons.add_shopping_cart, size: 20),
-                            SizedBox(width: 8),
+                            // Nome do produto
                             Text(
-                              'Adicionar ao Carrinho',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              produto['nome'],
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: Colors.grey[800],
+                                height: 1.3,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+
+                            SizedBox(height: 8),
+
+                            // Avaliação com estrelas
+                            Row(
+                              children: [
+                                ...List.generate(5, (star) {
+                                  double nota = produto['avaliacao'] ?? 4.6;
+                                  return Icon(
+                                    star < nota.floor()
+                                        ? Icons.star_rounded
+                                        : (star < nota
+                                            ? Icons.star_half_rounded
+                                            : Icons.star_border_rounded),
+                                    color: Colors.amber[600],
+                                    size: 16,
+                                  );
+                                }),
+                                SizedBox(width: 4),
+                                Text(
+                                  '(${(produto['avaliacao'] ?? 4.6).toStringAsFixed(1)})',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            Spacer(),
+
+                            // Preço
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.orange[50],
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                'R\$ ${produto['preco'].toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.orange[700],
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 12),
+
+                            // Botão de adicionar ao carrinho
+                            SizedBox(
+                              width: double.infinity,
+                              height: 44,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange[600],
+                                  foregroundColor: Colors.white,
+                                  elevation: 0,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    final idx = carrinho.indexWhere(
+                                      (item) => item['nome'] == produto['nome'],
+                                    );
+                                    if (idx != -1) {
+                                      carrinho[idx]['quantidade'] =
+                                          (carrinho[idx]['quantidade'] ?? 1) +
+                                          1;
+                                    } else {
+                                      final novoProduto =
+                                          Map<String, dynamic>.from(produto);
+                                      novoProduto['quantidade'] = 1;
+                                      carrinho.add(novoProduto);
+                                    }
+                                  });
+                                  _salvarCarrinho();
+
+                                  // Feedback visual melhorado
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.check_circle,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
+                                          SizedBox(width: 8),
+                                          Expanded(
+                                            child: Text(
+                                              '${produto['nome']} adicionado!',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      backgroundColor: Colors.green[600],
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      margin: EdgeInsets.all(16),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add_shopping_cart_rounded,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      'Adicionar',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(height: 6),
                   ],
                 ),
               ),
