@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:projeto_pi_flutter/data/repositories/pedidos_repository.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -54,6 +57,8 @@ class _PagamentoPageState extends State<PagamentoPage>
     },
   ];
 
+  get produtos => null;
+
   @override
   void initState() {
     super.initState();
@@ -79,6 +84,22 @@ class _PagamentoPageState extends State<PagamentoPage>
 
     _slideController.forward();
     _fadeController.forward();
+  }
+
+  String? validarEmail(String? value) {
+    if (value == null || value.isEmpty) return 'Informe o e-mail';
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value)) return 'E-mail inválido';
+    return null;
+  }
+
+  String? validarCPF(String? value) {
+    if (value == null || value.isEmpty) return 'Informe o CPF';
+    if (value.length != 11) return 'CPF deve ter 11 dígitos';
+    // Validação simples, para validação completa use um pacote ou algoritmo
+    if (!RegExp(r'^[0-9]+$').hasMatch(value))
+      return 'CPF deve conter apenas números';
+    return null;
   }
 
   @override
@@ -621,7 +642,17 @@ class _PagamentoPageState extends State<PagamentoPage>
                                             children: [
                                               TextFormField(
                                                 decoration: InputDecoration(
-                                                  labelText:
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10,
+                                                        ),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.grey[400]!,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  hintText:
                                                       'Nome completo (igual CPF)',
                                                 ),
                                                 validator:
@@ -633,37 +664,46 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                 onChanged:
                                                     (value) => nome = value,
                                               ),
+                                              SizedBox(height: 12),
                                               TextFormField(
                                                 decoration: InputDecoration(
-                                                  labelText: 'CPF',
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10,
+                                                        ),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.grey[400]!,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  hintText: 'CPF',
                                                 ),
                                                 keyboardType:
                                                     TextInputType.number,
                                                 maxLength: 11,
-                                                validator:
-                                                    (value) =>
-                                                        value == null ||
-                                                                value.length !=
-                                                                    11
-                                                            ? 'CPF inválido'
-                                                            : null,
+                                                validator: validarCPF,
                                                 onChanged:
                                                     (value) => cpf = value,
                                               ),
+                                              SizedBox(height: 12),
                                               TextFormField(
                                                 decoration: InputDecoration(
-                                                  labelText: 'E-mail',
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10,
+                                                        ),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.grey[400]!,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  hintText: 'E-mail',
                                                 ),
                                                 keyboardType:
                                                     TextInputType.emailAddress,
-                                                validator:
-                                                    (value) =>
-                                                        value == null ||
-                                                                !value.contains(
-                                                                  '@',
-                                                                )
-                                                            ? 'E-mail inválido'
-                                                            : null,
+                                                validator: validarEmail,
                                                 onChanged:
                                                     (value) => email = value,
                                               ),
