@@ -10,6 +10,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:projeto_pi_flutter/pages/produto_detalhe_page.dart';
 import 'package:projeto_pi_flutter/pages/pedidos.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class HomePage2 extends StatefulWidget {
   const HomePage2({super.key});
@@ -1792,8 +1793,6 @@ class _HomePage2State extends State<HomePage2> {
             controller: _searchController,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
-              hintText: 'Pesquisar...',
-              hintStyle: TextStyle(color: Colors.grey),
               prefixIcon: Icon(Icons.search, color: Colors.orange),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(vertical: 6),

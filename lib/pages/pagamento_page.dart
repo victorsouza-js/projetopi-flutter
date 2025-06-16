@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -801,7 +800,7 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                             ),
                                                             Divider(height: 28),
                                                             Text(
-                                                              'Use a chave Pix abaixo para efetuar o pagamento:',
+                                                              'Use a chave Pix abaixo ou escaneie o QR Code:',
                                                               style: TextStyle(
                                                                 fontSize: 16,
                                                               ),
@@ -811,6 +810,10 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                             ),
                                                             SizedBox(
                                                               height: 12,
+                                                            ),
+
+                                                            SizedBox(
+                                                              height: 25,
                                                             ),
                                                             SelectableText(
                                                               chavePix,
@@ -926,6 +929,7 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                         ],
                                                       ),
                                                 );
+                                                // ...existing code...
                                               }
                                             },
                                             child: Text(
