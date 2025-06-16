@@ -1899,33 +1899,7 @@ class _HomePage2State extends State<HomePage2> {
                 },
               ),
               SizedBox(width: 10),
-              PopupMenuButton<String>(
-                icon: Icon(Icons.more_vert, color: Colors.white),
-                onSelected: (value) async {
-                  if (value == 'logout') {
-                    // Aqui você pode salvar o carrinho, limpar dados, etc.
-                    await _salvarCarrinho();
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      '/home',
-                      (route) => false,
-                    );
-                  }
-                },
-                itemBuilder:
-                    (context) => [
-                      PopupMenuItem(
-                        value: 'logout',
-                        child: Row(
-                          children: [
-                            Icon(Icons.logout, color: Colors.red),
-                            SizedBox(width: 8),
-                            Text('Sair'),
-                          ],
-                        ),
-                      ),
-                    ],
-              ),
+              
             ],
           ),
         ],
