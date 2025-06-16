@@ -580,27 +580,11 @@ class _HomePage2State extends State<HomePage2> {
       'avaliacao': 4.8,
     },
     {
-      'nome': '',
-      'preco': 130.00,
+      'nome': 'Creatina Dark Lab 500g ',
+      'preco': 69.90,
       'imagem':
-          'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
-      'avaliacao': 4.8,
-    },
-    {
-      'nome':
-          'Creatina Monohidratada 1Kg 100% Pura Soldiers Nutrition Sem Sabor',
-      'preco': 130.00,
-      'imagem':
-          'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
-      'avaliacao': 4.8,
-    },
-    {
-      'nome':
-          'Creatina Monohidratada 1Kg 100% Pura Soldiers Nutrition Sem Sabor',
-      'preco': 130.00,
-      'imagem':
-          'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
-      'avaliacao': 4.8,
+          'https://m.media-amazon.com/images/I/61aVQSXVYrL._AC_UL320_.jpg',
+      'avaliacao': 5.0,
     },
   ];
 

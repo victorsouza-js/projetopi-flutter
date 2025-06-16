@@ -811,6 +811,12 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                             SizedBox(
                                                               height: 12,
                                                             ),
+                                                            Icon(
+                                                              Icons.qr_code,
+                                                              color:
+                                                                  Colors.black,
+                                                              size: 100,
+                                                            ),
 
                                                             SizedBox(
                                                               height: 25,
@@ -1124,7 +1130,30 @@ class _PagamentoPageState extends State<PagamentoPage>
                                               TextFormField(
                                                 decoration: InputDecoration(
                                                   labelText: 'Nome no cartão',
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10,
+                                                        ),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.blue[400]!,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              10,
+                                                            ),
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Colors.blue[600]!,
+                                                          width: 1.5,
+                                                        ),
+                                                      ),
                                                 ),
+
                                                 validator:
                                                     (value) =>
                                                         value == null ||
@@ -1134,9 +1163,32 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                 onChanged:
                                                     (value) => nome = value,
                                               ),
+                                              SizedBox(height: 12),
                                               TextFormField(
                                                 decoration: InputDecoration(
                                                   labelText: 'Número do cartão',
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10,
+                                                        ),
+                                                    borderSide: BorderSide(
+                                                      color: Colors.blue[400]!,
+                                                      width: 1.5,
+                                                    ),
+                                                  ),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              10,
+                                                            ),
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Colors.blue[600]!,
+                                                          width: 1.5,
+                                                        ),
+                                                      ),
                                                 ),
                                                 keyboardType:
                                                     TextInputType.number,
@@ -1158,6 +1210,30 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                       decoration: InputDecoration(
                                                         labelText:
                                                             'Validade (MM/AA)',
+                                                        border: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10,
+                                                              ),
+                                                          borderSide: BorderSide(
+                                                            color:
+                                                                Colors
+                                                                    .blue[400]!,
+                                                            width: 1.5,
+                                                          ),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10,
+                                                              ),
+                                                          borderSide: BorderSide(
+                                                            color:
+                                                                Colors
+                                                                    .blue[600]!,
+                                                            width: 1.5,
+                                                          ),
+                                                        ),
                                                       ),
                                                       maxLength: 5,
                                                       validator:
@@ -1175,10 +1251,33 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                   SizedBox(width: 8),
                                                   Expanded(
                                                     child: TextFormField(
-                                                      decoration:
-                                                          InputDecoration(
-                                                            labelText: 'CVV',
+                                                      decoration: InputDecoration(
+                                                        labelText: 'CVV',
+                                                        border: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10,
+                                                              ),
+                                                          borderSide: BorderSide(
+                                                            color:
+                                                                Colors
+                                                                    .blue[400]!,a
+                                                            width: 1.5,
                                                           ),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                10,
+                                                              ),
+                                                          borderSide: BorderSide(
+                                                            color:
+                                                                Colors
+                                                                    .blue[600]!,
+                                                            width: 1.5,
+                                                          ),
+                                                        ),
+                                                      ),
                                                       maxLength: 3,
                                                       obscureText: true,
                                                       validator:

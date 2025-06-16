@@ -212,6 +212,13 @@ class AppWidget extends StatelessWidget {
                         'https://http2.mlstatic.com/D_NQ_NP_686396-MLA85101318922_052025-O.webp',
                     'avaliacao': 4.8,
                   },
+                  {
+                    'nome': 'Creatina Dark Lab 500g ',
+                    'preco': 69.90,
+                    'imagem':
+                        'https://m.media-amazon.com/images/I/61aVQSXVYrL._AC_UL320_.jpg',
+                    'avaliacao': 5.0,
+                  },
                 ],
               ),
         },
