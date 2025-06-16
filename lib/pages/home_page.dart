@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage>
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       FontAwesomeIcons.envelope,
-                      color: Colors.black,
+                      color: Colors.orange,
                     ),
                     hintText: 'Email',
                     hintStyle: TextStyle(color: Colors.black),
@@ -135,7 +135,8 @@ class _HomePageState extends State<HomePage>
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.orange, width: 2),
+                      
                     ),
                   ),
                   validator: (value) {
@@ -157,7 +158,7 @@ class _HomePageState extends State<HomePage>
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       FontAwesomeIcons.lock,
-                      color: Colors.black,
+                      color: Colors.orange,
                     ),
                     hintText: 'Password',
                     hintStyle: TextStyle(color: Colors.black),
@@ -167,7 +168,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.orange),
+                      borderSide: BorderSide(color: Colors.orange, width: 2),
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(
