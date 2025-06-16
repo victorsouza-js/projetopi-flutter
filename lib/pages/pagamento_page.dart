@@ -1261,7 +1261,7 @@ class _PagamentoPageState extends State<PagamentoPage>
                                                           borderSide: BorderSide(
                                                             color:
                                                                 Colors
-                                                                    .blue[400]!,a
+                                                                    .blue[400]!,
                                                             width: 1.5,
                                                           ),
                                                         ),

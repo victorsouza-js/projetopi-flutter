@@ -136,7 +136,6 @@ class _HomePageState extends State<HomePage>
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: Colors.orange, width: 2),
-                      
                     ),
                   ),
                   validator: (value) {
@@ -265,7 +264,8 @@ class _HomePageState extends State<HomePage>
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
                 ),
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
+                  
+                  /*if (_formKey.currentState!.validate()) {
                     UserModel user = await userRepository.login(
                       data: {
                         'email': _emailController.text,
@@ -280,9 +280,9 @@ class _HomePageState extends State<HomePage>
                         SnackBar(content: Text('E-mail e Senha Incorretos!')),
                       );
                     }
-                  }
+                  } */
 
-                  /* if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     if (await validarLogin()) {
                       await _salvarDadosLogin();
                       Navigator.pushNamed(context, '/home2');
@@ -291,7 +291,7 @@ class _HomePageState extends State<HomePage>
                         SnackBar(content: Text('E-mail e Senha Incorretos!')),
                       );
                     }
-                  } */
+                  }
                 },
                 child: Text('Entrar', style: TextStyle(fontSize: 15)),
               ),
